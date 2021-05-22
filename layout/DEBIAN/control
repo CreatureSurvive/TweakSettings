@@ -1,0 +1,16 @@
+Package: com.creaturecoding.tweaksettings
+Name: TweakSettings
+Depends: firmware (>= 10.0), preferenceloader | com.creaturecoding.preferred
+Version: 1.0.0
+Priority: optional
+Architecture: iphoneos-arm
+Description: Dedicated settings app for tweaks
+Maintainer: CreatureSurvive <support@creaturecoding.com>
+Author: CreatureSurvive <support@creaturecoding.com>
+Section: Applications
+dev: CreatureSurvive
+Homepage: https://creaturecoding.com/
+Depiction: https://creaturecoding.com/?page=depiction&id=tweaksettings
+SileoDepiction: https://creaturecoding.com/sileo/depiction/?package_id=tweaksettings
+Tag: purpose::application, compatible_min::ios10
+Icon: file:///Applications/TweakSettings.app/icon_large.png

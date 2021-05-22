@@ -1,0 +1,92 @@
+//
+//  TS-Prefix.pch
+//  TweakSettings
+//
+//  Created by Dana Buehre on 5/19/21.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
+
+#ifndef TS_Prefix_pch
+#define TS_Prefix_pch
+
+NS_INLINE __unused void MAIN_QUEUE (void (^block)(void))
+{
+    [NSThread isMainThread] ? block() : dispatch_async(dispatch_get_main_queue(), ^{@autoreleasepool{block();}});
+}
+
+NS_INLINE __unused void MAIN_QUEUE_UNSAFE (void (^block)(void))
+{
+    dispatch_async(dispatch_get_main_queue(), ^{@autoreleasepool{block();}});
+}
+
+NS_INLINE __unused void HIGH_QUEUE (void (^block)(void))
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{@autoreleasepool{block();}});
+}
+
+NS_INLINE __unused NSObject *OBJECT_WITH_PLIST_OPTIONS(NSString *path, NSPropertyListReadOptions options)
+{
+    NSError *err1, *err2;
+    NSData *plistData = [NSData dataWithContentsOfFile:path options:(NSDataReadingOptions) 0 error:&err1];
+    if (plistData && !err1) {
+        NSObject *object = [NSPropertyListSerialization propertyListWithData:plistData options:options format:NULL error:&err2];
+        if (object && !err2) {
+            return object;
+        }
+        NSLog(@"ERROR (failed to read property-list file): %@", err2.localizedDescription);
+        return nil;
+    }
+    NSLog(@"ERROR (failed to read property-list file): %@", err1.localizedDescription);
+    return nil;
+}
+
+NS_INLINE __unused NSDictionary *DICTIONARY_WITH_PLIST_OPTIONS(NSString *path, NSPropertyListReadOptions options)
+{
+    NSObject *object = OBJECT_WITH_PLIST_OPTIONS(path, options);
+    if (object && [object isKindOfClass:NSDictionary.class]) {
+        NSLog(@"ERROR (property-list file at %@ is not a dictionary)", path);
+        return (NSDictionary *)object;
+    }
+    return nil;
+}
+
+NS_INLINE __unused NSDictionary *DICTIONARY_WITH_PLIST(NSString *path)
+{
+    return DICTIONARY_WITH_PLIST_OPTIONS(path, NSPropertyListImmutable);
+}
+
+NS_INLINE __unused NSArray *ARRAY_WITH_PLIST_OPTIONS(NSString *path, NSPropertyListReadOptions options)
+{
+    NSObject *object = OBJECT_WITH_PLIST_OPTIONS(path, options);
+    if (object && [object isKindOfClass:NSArray.class]) {
+        NSLog(@"ERROR (property-list file at %@ is not an array)", path);
+        return (NSArray *)object;
+    }
+    return nil;
+}
+
+NS_INLINE __unused NSArray *ARRAY_WITH_PLIST(NSString *path)
+{
+    return ARRAY_WITH_PLIST_OPTIONS(path, NSPropertyListImmutable);
+}
+
+NS_INLINE __unused int STATUS_FOR_COMMAND(NSString *command)
+{
+    FILE *proc = popen(command.UTF8String, "r");
+
+    if (!proc) { return EXIT_FAILURE; }
+
+    int size = 1024;
+    char data[size];
+
+    while (fgets(data, size, proc) != NULL) {}
+
+    int status = pclose(proc);
+
+    return status;
+}
+
+#endif /* TS_Prefix_pch */
