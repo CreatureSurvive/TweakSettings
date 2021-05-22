@@ -1,0 +1,12 @@
+build
+TweakSettings.xcodeproj/xcuserdata
+TweakSettings.xcodeproj/xcshareddata
+TweakSettings.xcodeproj/project.xcworkspace/xcuserdata
+TweakSettings.xcodeproj/project.xcworkspace/xcshareddata
+.idea
+.staging
+.theos
+.vscode
+.idea
+.DS_Store
+.DS_Store?

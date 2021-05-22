@@ -1,0 +1,20 @@
+export TARGET = iphone:clang:13.0:10.0
+export ARCHS = armv7 arm64
+
+DEBUG = 0
+FINALPACKAGE = 1
+GO_EASY_ON_ME = 0
+LEAN_AND_MEAN = 1
+THEOS_PACKAGE_DIR = Releases
+INSTALL_TARGET_PROCESSES = TweakSettings
+
+include $(THEOS)/makefiles/common.mk
+
+XCODEPROJ_NAME = TweakSettings
+TweakSettings_XCODEFLAGS = PACKAGE_VERSION='@\"$(THEOS_PACKAGE_BASE_VERSION)\"'
+TweakSettings_CODESIGN_FLAGS = -SResources/entitlements.plist
+
+include $(THEOS_MAKE_PATH)/xcodeproj.mk
+
+after-install::
+	install.exec "killall -9 TweakSettings; uicache -p /Applications/TweakSettings.app; uiopen tweaks:"
