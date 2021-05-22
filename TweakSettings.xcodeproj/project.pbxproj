@@ -26,6 +26,7 @@
 		9B2415BA8335FBD99BD1A482 /* TweakSettings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TweakSettings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B24169943CD9A7E1AA8E2FE /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAppDelegate.h; sourceTree = "<group>"; };
 		9B2416D9FECD758BFA318498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		9B2419CD47CC813402F66384 /* Localizable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizable.h; sourceTree = "<group>"; };
 		9B241B6A5EF71185ECED8986 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9B241BDCA3396202FEB00F19 /* TSRootListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRootListController.h; sourceTree = "<group>"; };
 		9B241CA30D8199267740AE3F /* TSSearchableListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSSearchableListController.h; sourceTree = "<group>"; };
@@ -55,6 +56,7 @@
 		B871CD71265209F70058F1C2 /* postinst */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = postinst; sourceTree = "<group>"; };
 		B871CD802655F1050058F1C2 /* TS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TS-Prefix.pch"; sourceTree = "<group>"; };
 		B871CD9F265601110058F1C2 /* icon_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_large.png; sourceTree = "<group>"; };
+		B871CDB4265991710058F1C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,8 @@
 				9B241BDCA3396202FEB00F19 /* TSRootListController.h */,
 				9B2413E3DE3004D22E25AAFB /* TSRootListController.m */,
 				9B2411C5CDD06E84A912DF3A /* libprefs.h */,
+				9B2419CD47CC813402F66384 /* Localizable.h */,
+				B871CDB5265991710058F1C2 /* Localizable.strings */,
 			);
 			path = TweakSettings;
 			sourceTree = "<group>";
@@ -253,6 +257,14 @@
 				9B2413E6B518A0A99C895507 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		B871CDB5265991710058F1C2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B871CDB4265991710058F1C2 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

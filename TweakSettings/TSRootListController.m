@@ -8,6 +8,7 @@
 
 #import "TSRootListController.h"
 #import "PSSpecifier.h"
+#import "Localizable.h"
 #import "libprefs.h"
 
 @interface TSRootListController ()
@@ -22,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = NSLocalizedString(ROOT_NAVIGATION_TITLE, nil);
 
     _refreshControl = [UIRefreshControl new];
     [_refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];

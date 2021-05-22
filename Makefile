@@ -16,5 +16,8 @@ TweakSettings_CODESIGN_FLAGS = -SResources/entitlements.plist
 
 include $(THEOS_MAKE_PATH)/xcodeproj.mk
 
+after-stage::
+	$(ECHO_NOTHING)rm -f $(THEOS_STAGING_DIR)/Applications/TweakSettings.app/Localizable.strings$(ECHO_END)
+
 after-install::
 	install.exec "killall -9 TweakSettings; uicache -p /Applications/TweakSettings.app; uiopen tweaks:"

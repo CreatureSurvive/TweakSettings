@@ -20,8 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.title = @"Tweaks";
-
     _searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     _searchController.searchResultsUpdater = self;
     _searchController.hidesNavigationBarDuringPresentation = NO;

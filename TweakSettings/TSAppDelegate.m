@@ -9,6 +9,7 @@
 #import "TSAppDelegate.h"
 #import "TSRootListController.h"
 #import "PSRootController.h"
+#import "Localizable.h"
 
 void HandleExceptions(NSException *exception)
 {
@@ -29,11 +30,11 @@ void HandleExceptions(NSException *exception)
     // Override point for customization after application launch.
 
     NSSetUncaughtExceptionHandler(&HandleExceptions);
-
+    
     application.shortcutItems = @[
-            [[UIApplicationShortcutItem alloc] initWithType:@"respring" localizedTitle:@"Respring" localizedSubtitle:nil icon:nil userInfo: nil],
-            [[UIApplicationShortcutItem alloc] initWithType:@"safemode" localizedTitle:@"Safemode" localizedSubtitle:nil icon:nil userInfo: nil],
-            [[UIApplicationShortcutItem alloc] initWithType:@"uicache" localizedTitle:@"UICache" localizedSubtitle:nil icon:nil userInfo: nil]
+            [[UIApplicationShortcutItem alloc] initWithType:@"respring" localizedTitle:NSLocalizedString(RESPRING_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo: nil],
+            [[UIApplicationShortcutItem alloc] initWithType:@"safemode" localizedTitle:NSLocalizedString(SAFEMODE_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo:nil],
+            [[UIApplicationShortcutItem alloc] initWithType:@"uicache" localizedTitle:NSLocalizedString(UICACHE_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo:nil]
     ];
 
     _rootListController = [TSRootListController new];
