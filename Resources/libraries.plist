@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-    <string>/usr/lib/libpreferred.dylib</string>
-    <string>/Library/MobileSubstrate/DynamicLibraries/PreferenceLoader.dylib</string>
-</array>
+    <array>
+        <!--    com.creaturecoding.preferred (PreferenceLoader alternative)    -->
+        <string>/usr/lib/libpreferred.dylib</string>
+        <!--    PreferenceLoader    -->
+        <string>/Library/MobileSubstrate/DynamicLibraries/PreferenceLoader.dylib</string>
+    </array>
 </plist>

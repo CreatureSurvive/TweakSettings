@@ -15,8 +15,9 @@
 @class PSRootController, PSSpecifier, PSTableCell;
 
 @interface PSListController : PSViewController <UITableViewDelegate, UITableViewDataSource, UIAppearance> {
-								NSMutableArray *_specifiers;
-								NSIndexPath* _savedSelectedIndexPath;
+	NSMutableArray *_specifiers;
+	NSIndexPath* _savedSelectedIndexPath;
+	NSMutableArray* _bundleControllers;
 }
 
 + (BOOL)displaysButtonBar;

@@ -16,6 +16,7 @@
 		9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B241DE01047656B78369A94 /* LaunchScreen.storyboard */; };
 		B871CD472651D3680058F1C2 /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
 		B871CDA0265601110058F1C2 /* icon_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B871CD9F265601110058F1C2 /* icon_large.png */; };
+		B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B871CDB5265991710058F1C2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		9B2411C5CDD06E84A912DF3A /* libprefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libprefs.h; sourceTree = "<group>"; };
 		9B2413E3DE3004D22E25AAFB /* TSRootListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRootListController.m; sourceTree = "<group>"; };
 		9B2413E6B518A0A99C895507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9B2414FC0CEAEAEE0298A035 /* PSSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSSplitViewController.h; sourceTree = "<group>"; };
 		9B2415BA8335FBD99BD1A482 /* TweakSettings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TweakSettings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B24169943CD9A7E1AA8E2FE /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAppDelegate.h; sourceTree = "<group>"; };
 		9B2416D9FECD758BFA318498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				B871CD592651D57D0058F1C2 /* PSDetailController.h */,
 				B871CD5A2651D57D0058F1C2 /* PSEditableListController.h */,
 				B871CD5B2651D57D0058F1C2 /* PSSwitchTableCell.h */,
+				9B2414FC0CEAEAEE0298A035 /* PSSplitViewController.h */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 		9B24187A700989AD042EE9B3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					9B241415F9C679FF819D248E = {
 						ProvisioningStyle = Manual;
@@ -227,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */,
 				B871CDA0265601110058F1C2 /* icon_large.png in Resources */,
 				9B2417125AF333AF7433AE3F /* Assets.xcassets in Resources */,
 				9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */,
@@ -298,6 +303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -380,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

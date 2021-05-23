@@ -12,9 +12,9 @@
 #import "TSAppDelegate.h"
 
 
-int main(int argc, char * argv[]) {
+int main(int argc, char *argv[]) {
 
-    NSString * appDelegateClassName;
+    NSString *appDelegateClassName;
 
     @autoreleasepool {
 

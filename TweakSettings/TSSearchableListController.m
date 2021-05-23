@@ -7,7 +7,6 @@
 //
 
 #import "TSSearchableListController.h"
-#import "PSSpecifier.h"
 
 @interface TSSearchableListController ()
 
@@ -28,9 +27,7 @@
 
     if (@available(iOS 11.0, *)) {
         self.navigationItem.searchController = _searchController;
-    }
-    else
-    {
+    } else {
         self.table.tableHeaderView = _searchController.searchBar;
     }
 
@@ -39,13 +36,11 @@
 
 #pragma mark - UISearchResultsUpdating
 
-- (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController
-{
-    NSString *searchText = searchController.searchBar.text;
-    if (searchText && searchText.length > 0)
-    {
+- (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController {
+    __block NSString *searchText = searchController.searchBar.text;
+    if (searchText && searchText.length > 0) {
         HIGH_QUEUE(^{
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[cd] %@", searchController.searchBar.text];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[cd] %@", searchText];
             __block NSMutableArray *filteredSpecifiers = [self.unfilteredSpecifiers filteredArrayUsingPredicate:predicate].mutableCopy;
 
             MAIN_QUEUE_UNSAFE(^{
@@ -53,9 +48,7 @@
                 [self.table reloadData];
             });
         });
-    }
-    else
-    {
+    } else {
         MAIN_QUEUE_UNSAFE(^{
             self.specifiers = self.unfilteredSpecifiers;
             [self.table reloadData];

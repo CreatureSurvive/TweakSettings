@@ -11,6 +11,6 @@
 
 @interface TSSearchableListController : PSListController <UISearchBarDelegate, UISearchResultsUpdating>
 
-@property (nonatomic, strong) NSMutableArray<PSSpecifier *> *unfilteredSpecifiers;
+@property(nonatomic, strong) NSMutableArray<PSSpecifier *> *unfilteredSpecifiers;
 
 @end
