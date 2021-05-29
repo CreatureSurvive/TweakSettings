@@ -8,6 +8,12 @@
         <key>platform-application</key>
         <true/>
 
+        <!--    Library validation    -->
+        <key>dynamic-codesigning</key>
+        <true/>
+        <key>com.apple.private.skip-library-validation</key>
+        <true/>
+
         <!--    Sandbox Escape    -->
         <key>com.apple.private.security.container-required</key>
         <false/>
@@ -33,6 +39,7 @@
         <!--	Fix EAGLContext crash when loading custom images on iOS 14.x   -->
         <key>com.apple.security.iokit-user-client-class</key>
         <array>
+            <string>IOUserClient</string>
             <string>AGXDeviceUserClient</string>
             <string>IOHDIXControllerUserClient</string>
             <string>IOSurfaceRootUserClient</string>
@@ -41,10 +48,11 @@
             <string>IOMobileFramebufferUserClient</string>
         </array>
 
-        <!--    Allow FaceID usage within the app    -->
+        <!--    Allow private TCC usage within the app    -->
         <key>com.apple.private.tcc.allow</key>
         <array>
             <string>kTCCServiceFaceID</string>
+            <string>kTCCServiceMediaLibrary</string>
         </array>
     </dict>
 </plist>
