@@ -1,4 +1,4 @@
-#import "PSViewController.h"
+#import <Preferences/PSViewController.h>
 
 @class UIKeyboard, PSEditingPane, UIView;
 

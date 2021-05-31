@@ -6,6 +6,7 @@
 //
 //
 
+#import <Preferences/PSSpecifier.h>
 #import "TSSearchableListController.h"
 
 @interface TSSearchableListController ()

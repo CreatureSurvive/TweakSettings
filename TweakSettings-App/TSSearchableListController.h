@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PSListController.h"
+#import <Preferences/PSListController.h>
+
+@class PSSpecifier;
 
 @interface TSSearchableListController : PSListController <UISearchBarDelegate, UISearchResultsUpdating>
 

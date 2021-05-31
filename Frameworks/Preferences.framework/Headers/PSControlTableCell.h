@@ -1,4 +1,4 @@
-#import "PSTableCell.h"
+#import <Preferences/PSTableCell.h>
 
 @interface PSControlTableCell : PSTableCell
 

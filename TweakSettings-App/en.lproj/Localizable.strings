@@ -1,0 +1,28 @@
+/****************************************************************************/
+/* Localization file */
+
+/* Application Shortcut Titles */
+"RESPRING_TITLE_KEY" = "Perform Respring";
+"SAFEMODE_TITLE_KEY" = "Enter Safemode";
+"UICACHE_TITLE_KEY" = "Perform UICache";
+"LDRESTART_TITLE_KEY" = "Perform LDRestart";
+"REBOOT_TITLE_KEY" = "Perform Reboot";
+"USREBOOT_TITLE_KEY" = "Perform Userspace Reboot";
+"TWEAKINJECT_TITLE_KEY" = "Toggle Tweak Injection";
+
+/* Application Shortcut Subtitles */
+"TWEAKINJECT_SUBTITLE_KEY" = "Toggle tweak injection on/off";
+"UICACHE_SUBTITLE_KEY" = "Refresh icon caches";
+"SAFEMODE_SUBTITLE_KEY" = "Send the device into safemode";
+"RESPRING_SUBTITLE_KEY" = "Trigger a respring";
+"LDRESTART_SUBTITLE_KEY" = "Trigger an ldrestart";
+"REBOOT_SUBTITLE_KEY" = "Reboot the device";
+"USREBOOT_SUBTITLE_KEY" = "Trigger a userspace reboot";
+
+/* Application Root Navigation Title */
+"ROOT_NAVIGATION_TITLE_KEY" = "Tweaks";
+"ROOT_NAVIGATION_RIGHT_TITLE_KEY" = "Actions";
+
+/* Alert Strings */
+"ALERT_CANCEL_TITLE_KEY" = "Cancel";
+"ALERT_ACTION_MESSAGE_KEY" = "This action will: %@\n\nAre you sure you want to proceed?";

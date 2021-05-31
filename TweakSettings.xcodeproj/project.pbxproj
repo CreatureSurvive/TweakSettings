@@ -12,9 +12,10 @@
 		9B2417125AF333AF7433AE3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B241145674E6322664B2C03 /* Assets.xcassets */; };
 		9B2417E56F6BC6F4E56A7C8A /* libraries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B241CBB0D66BA984E5ACE30 /* libraries.plist */; };
 		9B241AD7EE27F4BB6C24537F /* TSRootListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2413E3DE3004D22E25AAFB /* TSRootListController.m */; };
+		9B241E08CA97D4D566147CE2 /* TSUtilityActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */; };
 		9B241E2F90DD7CBD64A43B51 /* TSSearchableListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241E51979762427B0DEF19 /* TSSearchableListController.m */; };
 		9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B241DE01047656B78369A94 /* LaunchScreen.storyboard */; };
-		B871CD472651D3680058F1C2 /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
+		B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
 		B871CDA0265601110058F1C2 /* icon_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B871CD9F265601110058F1C2 /* icon_large.png */; };
 		B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B871CDB5265991710058F1C2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -22,9 +23,10 @@
 /* Begin PBXFileReference section */
 		9B241145674E6322664B2C03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B2411C5CDD06E84A912DF3A /* libprefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libprefs.h; sourceTree = "<group>"; };
+		9B2413D1010D1C1F36578888 /* TSUtilityActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtilityActionManager.h; sourceTree = "<group>"; };
 		9B2413E3DE3004D22E25AAFB /* TSRootListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRootListController.m; sourceTree = "<group>"; };
 		9B2413E6B518A0A99C895507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9B2414FC0CEAEAEE0298A035 /* PSSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSSplitViewController.h; sourceTree = "<group>"; };
+		9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUtilityActionManager.m; sourceTree = "<group>"; };
 		9B2415BA8335FBD99BD1A482 /* TweakSettings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TweakSettings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B24169943CD9A7E1AA8E2FE /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAppDelegate.h; sourceTree = "<group>"; };
 		9B2416D9FECD758BFA318498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
@@ -35,25 +37,12 @@
 		9B241CBB0D66BA984E5ACE30 /* libraries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = libraries.plist; sourceTree = "<group>"; };
 		9B241E3CD3D1F6D3B55609D3 /* TSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TSAppDelegate.m; sourceTree = "<group>"; };
 		9B241E51979762427B0DEF19 /* TSSearchableListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TSSearchableListController.m; sourceTree = "<group>"; };
+		B86FC5C72663E8D80011E4AF /* entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = entitlements.plist; sourceTree = "<group>"; };
+		B86FC5C82663E8D80011E4AF /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		B86FC5C92663E8D80011E4AF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		B871CD412651D1A40058F1C2 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B871CD442651D2180058F1C2 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
 		B871CD462651D3680058F1C2 /* Preferences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Preferences.framework; sourceTree = "<group>"; };
-		B871CD4C2651D57D0058F1C2 /* PSDiscreteSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSDiscreteSlider.h; sourceTree = "<group>"; };
-		B871CD4D2651D57D0058F1C2 /* PSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSViewController.h; sourceTree = "<group>"; };
-		B871CD4E2651D57D0058F1C2 /* PSListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSListController.h; sourceTree = "<group>"; };
-		B871CD4F2651D57D0058F1C2 /* PSTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSTableCell.h; sourceTree = "<group>"; };
-		B871CD502651D57D0058F1C2 /* PSHeaderFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSHeaderFooterView.h; sourceTree = "<group>"; };
-		B871CD512651D57D0058F1C2 /* PSBundleController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSBundleController.h; sourceTree = "<group>"; };
-		B871CD522651D57D0058F1C2 /* PSSpecifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSSpecifier.h; sourceTree = "<group>"; };
-		B871CD532651D57D0058F1C2 /* PSControlTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSControlTableCell.h; sourceTree = "<group>"; };
-		B871CD542651D57D0058F1C2 /* PSSliderTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSSliderTableCell.h; sourceTree = "<group>"; };
-		B871CD552651D57D0058F1C2 /* PSListItemsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSListItemsController.h; sourceTree = "<group>"; };
-		B871CD562651D57D0058F1C2 /* PSEditableTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSEditableTableCell.h; sourceTree = "<group>"; };
-		B871CD572651D57D0058F1C2 /* PSRootController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSRootController.h; sourceTree = "<group>"; };
-		B871CD582651D57D0058F1C2 /* PSSystemPolicyForApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSSystemPolicyForApp.h; sourceTree = "<group>"; };
-		B871CD592651D57D0058F1C2 /* PSDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSDetailController.h; sourceTree = "<group>"; };
-		B871CD5A2651D57D0058F1C2 /* PSEditableListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSEditableListController.h; sourceTree = "<group>"; };
-		B871CD5B2651D57D0058F1C2 /* PSSwitchTableCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSSwitchTableCell.h; sourceTree = "<group>"; };
 		B871CD622651E7230058F1C2 /* entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = entitlements.plist; sourceTree = "<group>"; };
 		B871CD71265209F70058F1C2 /* postinst */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = postinst; sourceTree = "<group>"; };
 		B871CD802655F1050058F1C2 /* TS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TS-Prefix.pch"; sourceTree = "<group>"; };
@@ -66,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B871CD472651D3680058F1C2 /* Preferences.framework in Frameworks */,
+				B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,16 +65,17 @@
 		9B2413F4B2E92AC99D37B468 = {
 			isa = PBXGroup;
 			children = (
+				B86FC5C52663E8D80011E4AF /* TweakSettings-Utility */,
 				B871CDA3265601340058F1C2 /* Resources */,
 				B871CD412651D1A40058F1C2 /* Makefile */,
-				B871CD4B2651D57D0058F1C2 /* Preferences */,
 				B871CD422651D2180058F1C2 /* layout */,
 				9B241880696EB372AB810EDA /* Products */,
-				9B2416070FA2791AF62D5143 /* TweakSettings */,
+				9B2416070FA2791AF62D5143 /* TweakSettings-App */,
+				B86FC5D226645DC50011E4AF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
-		9B2416070FA2791AF62D5143 /* TweakSettings */ = {
+		9B2416070FA2791AF62D5143 /* TweakSettings-App */ = {
 			isa = PBXGroup;
 			children = (
 				9B241145674E6322664B2C03 /* Assets.xcassets */,
@@ -103,8 +93,10 @@
 				9B2411C5CDD06E84A912DF3A /* libprefs.h */,
 				9B2419CD47CC813402F66384 /* Localizable.h */,
 				B871CDB5265991710058F1C2 /* Localizable.strings */,
+				9B2413D1010D1C1F36578888 /* TSUtilityActionManager.h */,
+				9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */,
 			);
-			path = TweakSettings;
+			path = "TweakSettings-App";
 			sourceTree = "<group>";
 		};
 		9B241880696EB372AB810EDA /* Products */ = {
@@ -113,6 +105,23 @@
 				9B2415BA8335FBD99BD1A482 /* TweakSettings.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B86FC5C52663E8D80011E4AF /* TweakSettings-Utility */ = {
+			isa = PBXGroup;
+			children = (
+				B86FC5C72663E8D80011E4AF /* entitlements.plist */,
+				B86FC5C82663E8D80011E4AF /* Makefile */,
+				B86FC5C92663E8D80011E4AF /* main.c */,
+			);
+			path = "TweakSettings-Utility";
+			sourceTree = "<group>";
+		};
+		B86FC5D226645DC50011E4AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B871CD422651D2180058F1C2 /* layout */ = {
@@ -139,30 +148,6 @@
 			);
 			path = Frameworks;
 			sourceTree = SOURCE_ROOT;
-		};
-		B871CD4B2651D57D0058F1C2 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				B871CD4C2651D57D0058F1C2 /* PSDiscreteSlider.h */,
-				B871CD4D2651D57D0058F1C2 /* PSViewController.h */,
-				B871CD4E2651D57D0058F1C2 /* PSListController.h */,
-				B871CD4F2651D57D0058F1C2 /* PSTableCell.h */,
-				B871CD502651D57D0058F1C2 /* PSHeaderFooterView.h */,
-				B871CD512651D57D0058F1C2 /* PSBundleController.h */,
-				B871CD522651D57D0058F1C2 /* PSSpecifier.h */,
-				B871CD532651D57D0058F1C2 /* PSControlTableCell.h */,
-				B871CD542651D57D0058F1C2 /* PSSliderTableCell.h */,
-				B871CD552651D57D0058F1C2 /* PSListItemsController.h */,
-				B871CD562651D57D0058F1C2 /* PSEditableTableCell.h */,
-				B871CD572651D57D0058F1C2 /* PSRootController.h */,
-				B871CD582651D57D0058F1C2 /* PSSystemPolicyForApp.h */,
-				B871CD592651D57D0058F1C2 /* PSDetailController.h */,
-				B871CD5A2651D57D0058F1C2 /* PSEditableListController.h */,
-				B871CD5B2651D57D0058F1C2 /* PSSwitchTableCell.h */,
-				9B2414FC0CEAEAEE0298A035 /* PSSplitViewController.h */,
-			);
-			path = Preferences;
-			sourceTree = "<group>";
 		};
 		B871CDA3265601340058F1C2 /* Resources */ = {
 			isa = PBXGroup;
@@ -250,6 +235,7 @@
 				9B2413AFE1BFF43795ACA65A /* TSAppDelegate.m in Sources */,
 				9B241E2F90DD7CBD64A43B51 /* TSSearchableListController.m in Sources */,
 				9B241AD7EE27F4BB6C24537F /* TSRootListController.m in Sources */,
+				9B241E08CA97D4D566147CE2 /* TSUtilityActionManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,8 +272,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/TS-Prefix.pch";
-				INFOPLIST_FILE = tweaksettings/Info.plist;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)-App/TS-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/TweakSettings-App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.2;
@@ -370,8 +356,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
-				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/TS-Prefix.pch";
-				INFOPLIST_FILE = tweaksettings/Info.plist;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)-App/TS-Prefix.pch";
+				INFOPLIST_FILE = "$(SRCROOT)/TweakSettings-App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.2;

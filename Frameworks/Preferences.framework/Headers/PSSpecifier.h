@@ -1,4 +1,4 @@
-#import "PSTableCell.h"
+#import <Preferences/PSTableCell.h>
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS

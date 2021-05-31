@@ -1,6 +1,8 @@
+#import <UIKit/UITableViewCell.h>
+
 @class PSSpecifier;
 
-typedef NS_ENUM(NSInteger, PSCellType) {
+typedef enum : NSUInteger {
 	PSGroupCell,
 	PSLinkCell,
 	PSLinkListCell,
@@ -17,7 +19,7 @@ typedef NS_ENUM(NSInteger, PSCellType) {
 	PSButtonCell,
 	PSEditTextViewCell,
 	PSSpinnerCell
-};
+} PSCellType;
 
 @interface PSTableCell : UITableViewCell
 

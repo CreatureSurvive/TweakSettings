@@ -6,10 +6,11 @@
 //
 //
 
+#import <Preferences/PSSpecifier.h>
 #import "TSRootListController.h"
-#import "PSSpecifier.h"
 #import "Localizable.h"
 #import "libprefs.h"
+#import "TSAppDelegate.h"
 
 @interface TSRootListController ()
 
@@ -22,7 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.navigationItem.title = NSLocalizedString(ROOT_NAVIGATION_TITLE, nil);
+    self.navigationItem.title = NSLocalizedString(ROOT_NAVIGATION_TITLE_KEY, nil);
+    if (@available(iOS 14, *)) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(ROOT_NAVIGATION_RIGHT_TITLE_KEY, nil) menu:ActionListMenu(self)];
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(ROOT_NAVIGATION_RIGHT_TITLE_KEY, nil) style:UIBarButtonItemStylePlain target:self action:@selector(handleActionButtonTapped:)];
+    }
 
     _refreshControl = [UIRefreshControl new];
     [_refreshControl addTarget:self action:@selector(handleRefresh) forControlEvents:UIControlEventValueChanged];
@@ -33,8 +39,8 @@
     if (!_specifiers) {
         NSMutableArray *specifiers = [self loadTweakSpecifiers].mutableCopy;
 
-        NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-        NSString *footerText = [NSString stringWithFormat:@"Tweak Settings - v%@\nCreatureCoding © 2021", appVersion];
+        NSString *appVersion = [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+        NSString *footerText = [NSString stringWithFormat:@"Tweak Settings — v%@\nCreatureCoding © 2021", appVersion];
         PSSpecifier *groupSpecifier = [PSSpecifier emptyGroupSpecifier];
         [groupSpecifier setProperty:footerText forKey:PSFooterTextGroupKey];
         [groupSpecifier setProperty:@1 forKey:PSFooterAlignmentGroupKey];
@@ -97,6 +103,11 @@
 - (void)handleRefresh {
     _specifiers = nil;
     [self reloadSpecifiers];
+}
+
+- (void)handleActionButtonTapped:(UIBarButtonItem *)sender {
+
+    [self.navigationController presentViewController:ActionListAlert(sender) animated:YES completion:nil];
 }
 
 @end

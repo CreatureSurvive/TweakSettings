@@ -1,4 +1,4 @@
-#import "PSControlTableCell.h"
+#import <Preferences/PSControlTableCell.h>
 
 @class UIActivityIndicatorView;
 

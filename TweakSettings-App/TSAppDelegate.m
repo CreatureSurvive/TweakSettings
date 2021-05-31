@@ -6,9 +6,9 @@
 //
 //
 
+#import <Preferences/PSRootController.h>
 #import "TSAppDelegate.h"
 #import "TSRootListController.h"
-#import "PSRootController.h"
 #import "Localizable.h"
 
 void HandleExceptions(NSException *exception) {
@@ -19,7 +19,6 @@ void HandleExceptions(NSException *exception) {
 
 @property(nonatomic, strong) PSRootController *rootController;
 @property(nonatomic, strong) TSRootListController *rootListController;
-@property(nonatomic, strong) NSDictionary *options;
 
 @end
 
@@ -30,12 +29,11 @@ void HandleExceptions(NSException *exception) {
 
     NSSetUncaughtExceptionHandler(&HandleExceptions);
 
-    _options = DICTIONARY_WITH_PLIST(@"/Applications/TweakSettings.app/options.plist");
-
     application.shortcutItems = @[
-            [[UIApplicationShortcutItem alloc] initWithType:@"respring" localizedTitle:NSLocalizedString(RESPRING_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo:nil],
-            [[UIApplicationShortcutItem alloc] initWithType:@"safemode" localizedTitle:NSLocalizedString(SAFEMODE_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo:nil],
-            [[UIApplicationShortcutItem alloc] initWithType:@"uicache" localizedTitle:NSLocalizedString(UICACHE_APPLICATION_TITLE, nil) localizedSubtitle:nil icon:nil userInfo:nil]
+            [[UIApplicationShortcutItem alloc] initWithType:TSActionTypeTweakInject localizedTitle:NSLocalizedString(TWEAKINJECT_TITLE_KEY, nil) localizedSubtitle:NSLocalizedString(TWEAKINJECT_SUBTITLE_KEY, nil) icon:nil userInfo:nil],
+            [[UIApplicationShortcutItem alloc] initWithType:TSActionTypeUICache localizedTitle:NSLocalizedString(UICACHE_TITLE_KEY, nil) localizedSubtitle:NSLocalizedString(UICACHE_SUBTITLE_KEY, nil) icon:nil userInfo:nil],
+            [[UIApplicationShortcutItem alloc] initWithType:TSActionTypeSafemode localizedTitle:NSLocalizedString(SAFEMODE_TITLE_KEY, nil) localizedSubtitle:NSLocalizedString(SAFEMODE_SUBTITLE_KEY, nil) icon:nil userInfo:nil],
+            [[UIApplicationShortcutItem alloc] initWithType:TSActionTypeRespring localizedTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) localizedSubtitle:NSLocalizedString(RESPRING_SUBTITLE_KEY, nil) icon:nil userInfo:nil]
     ];
 
     _rootListController = [TSRootListController new];
@@ -47,7 +45,7 @@ void HandleExceptions(NSException *exception) {
 
     if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
 
-        [self handleShortcutItemPressed:launchOptions[UIApplicationLaunchOptionsShortcutItemKey]];
+        [self handleActionForType:[(UIApplicationShortcutItem *)launchOptions[UIApplicationLaunchOptionsShortcutItemKey] type] withConfirmationSender:nil];
         return NO;
     }
 
@@ -92,24 +90,31 @@ void HandleExceptions(NSException *exception) {
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
-    [self handleShortcutItemPressed:shortcutItem];
+    [self handleActionForType:shortcutItem.type withConfirmationSender:nil];
     completionHandler(YES);
 }
 
-- (void)handleShortcutItemPressed:(UIApplicationShortcutItem *)item {
+- (void)handleActionForType:(NSString *)actionType withConfirmationSender:(id)sender {
 
-    if ([item.type isEqualToString:@"respring"]) {
+    UIAlertController *controller = ActionAlertForType(actionType);
+    controller.modalPresentationStyle = UIModalPresentationPopover;
 
-        STATUS_FOR_COMMAND(@"/usr/bin/killall backboardd");
+    if (sender && [sender isKindOfClass:UIBarButtonItem.class]) {
 
-    } else if ([item.type isEqualToString:@"safemode"]) {
+        controller.popoverPresentationController.barButtonItem = sender;
 
-        STATUS_FOR_COMMAND(@"/usr/bin/killall -SEGV SpringBoard");
+    } else if (sender && [sender isKindOfClass:UIView.class]) {
 
-    } else if ([item.type isEqualToString:@"uicache"]) {
+        controller.popoverPresentationController.sourceView = (UIView *)sender;
+        controller.popoverPresentationController.sourceRect = ((UIView *)sender).bounds;
 
-        STATUS_FOR_COMMAND(@"/usr/bin/uicache");
+    } else {
+
+        controller.popoverPresentationController.sourceView = self.rootController.view;
+        controller.popoverPresentationController.sourceRect = self.rootController.view.bounds;
     }
+
+    [self.rootController presentViewController:controller animated:YES completion:nil];
 }
 
 @end

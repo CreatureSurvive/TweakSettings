@@ -1,4 +1,4 @@
-#import "PSListController.h"
+#import <Preferences/PSListController.h>
 
 @class PSSpecifier;
 

@@ -1,3 +1,5 @@
+#import <UIKit/UINavigationController.h>
+
 @class PSListController;
 
 @interface PSRootController : UINavigationController

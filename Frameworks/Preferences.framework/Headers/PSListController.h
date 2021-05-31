@@ -1,16 +1,5 @@
-/**
- * @Author: Dana Buehre <creaturesurvive>
- * @Date:   17-09-2016 2:51:39
- * @Email:  dbuehre@me.com
- * @Project: motuumLS
- * @Filename: PSListController.h
- * @Last modified by:   creaturesurvive
- * @Last modified time: 08-07-2017 6:23:13
- * @Copyright: Copyright © 2014-2017 CreatureSurvive
- */
-
-
-#import "PSViewController.h"
+#import <UIKit/UITableView.h>
+#import <Preferences/PSViewController.h>
 
 @class PSRootController, PSSpecifier, PSTableCell;
 
@@ -154,4 +143,5 @@
 - (void)_keyboardDidShow:(id)sender;
 - (void)_keyboardWillHide:(id)sender;
 - (void)_keyboardDidHide:(id)sender;
+- (void)_returnKeyPressed:(id)sender;
 @end
