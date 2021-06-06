@@ -7,6 +7,7 @@
 //
 
 #import <Preferences/PSSpecifier.h>
+#import <dlfcn.h>
 #import "TSRootListController.h"
 #import "Localizable.h"
 #import "libprefs.h"
@@ -60,34 +61,99 @@
 - (NSArray<PSSpecifier *> *)loadTweakSpecifiers {
     NSMutableArray *preferenceSpecifiers = [NSMutableArray new];
 
-    if ([PSSpecifier respondsToSelector:@selector(environmentPassesPreferenceLoaderFilter:)] ||
-            [self respondsToSelector:@selector(specifiersFromEntry:sourcePreferenceLoaderBundlePath:title:)]) {
+    BOOL (^PREFERENCE_FILTER_PASSES_ENVIRONMENT_CHECKS)(NSDictionary *) = ^BOOL (NSDictionary *filter) {
+        BOOL valid = YES;
+        NSArray *coreFoundationVersion;
 
-        NSArray *preferenceBundlePaths = [NSFileManager.defaultManager subpathsOfDirectoryAtPath:@"/Library/PreferenceLoader/Preferences" error:nil];
+        if (filter && (coreFoundationVersion = filter[@"CoreFoundationVersion"])) {
+            if (coreFoundationVersion.count > 0) valid = valid && (kCFCoreFoundationVersionNumber >= [coreFoundationVersion[0] floatValue]); // lower
+            if (coreFoundationVersion.count > 1) valid = valid && (kCFCoreFoundationVersionNumber < [coreFoundationVersion[1] floatValue]); // upper
+        }
 
-        for (NSString *item in preferenceBundlePaths) {
-            if (![item.pathExtension isEqualToString:@"plist"]) continue;
+        return valid;
+    };
 
-            NSString *plistPath = [NSString stringWithFormat:@"/Library/PreferenceLoader/Preferences/%@", item];
-            NSDictionary *plist = DICTIONARY_WITH_PLIST(plistPath);
+    NSArray *(^SPECIFIERS_FROM_ENTRY)(NSDictionary *, NSString *, NSString *, PSListController *) = ^NSArray * (NSDictionary *entry, NSString *sourceBundlePath, NSString *title, PSListController *listController) {
 
-            if (!plist[@"entry"]) continue;
-            if (![PSSpecifier environmentPassesPreferenceLoaderFilter:(plist[@"filter"] ?: plist[@"pl_filter"])]) continue;
-            if (![PSSpecifier environmentPassesPreferenceLoaderFilter:plist[@"entry"][@"pl_filter"]]) continue;
+        NSString *bundleName = entry[@"bundle"];
+        NSString *bundlePath = entry[@"bundlePath"];
+        NSDictionary *specifierPlist = @{ @"items" : @[entry] };
+        BOOL isBundle = bundleName != nil;
 
-            NSString *sourceBundlePath = [plistPath stringByDeletingLastPathComponent];
-            NSString *title = [item.lastPathComponent stringByDeletingPathExtension];
-            NSArray *itemSpecifiers = [self specifiersFromEntry:plist[@"entry"] sourcePreferenceLoaderBundlePath:sourceBundlePath title:title];
-
-            for (PSSpecifier *specifier in itemSpecifiers) {
-
-                if ([specifier propertyForKey:PSIconImageKey]) continue;
-                [specifier setProperty:[UIImage imageNamed:@"tweak"] forKey:PSIconImageKey];
+        if (isBundle) {
+            NSFileManager *fileManger = NSFileManager.defaultManager;
+            if (![fileManger fileExistsAtPath:bundlePath])
+                bundlePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/%@.bundle", bundleName];
+            if (![fileManger fileExistsAtPath:bundlePath])
+                bundlePath = [NSString stringWithFormat:@"/System/Library/PreferenceBundles/%@.bundle", bundleName];
+            if (![fileManger fileExistsAtPath:bundlePath]) {
+                return nil;
             }
+        }
 
-            if (itemSpecifiers && itemSpecifiers.count) {
-                [preferenceSpecifiers addObjectsFromArray:itemSpecifiers];
+        NSBundle *prefBundle = [NSBundle bundleWithPath:(isBundle ? bundlePath : sourceBundlePath)];
+        NSArray *bundleControllers = [listController valueForKey:@"_bundleControllers"];
+
+        void *handle = dlopen("/System/Library/PrivateFrameworks/Preferences.framework/Preferences", RTLD_LAZY);
+        NSArray *(*_SpecifiersFromPlist)(NSDictionary *,PSSpecifier *,id ,NSString *,NSBundle *,NSString **,NSString **,PSListController *,NSMutableArray **) = dlsym(handle, "SpecifiersFromPlist");
+        NSArray *specs = _SpecifiersFromPlist(specifierPlist, nil, listController, title, prefBundle, NULL, NULL, listController, &bundleControllers);
+
+        if (!specs.count) return nil;
+
+        if (isBundle) {
+            if ([entry[PSBundleIsControllerKey] boolValue]) {
+                for (PSSpecifier *specifier in specs) {
+                    [specifier setProperty:bundlePath forKey:PSLazilyLoadedBundleKey];
+                    [specifier setProperty:[NSBundle bundleWithPath:sourceBundlePath] forKey:@"pl_bundle"];
+                    if (!specifier.name) specifier.name = title;
+                }
             }
+        } else {
+            Class customClass = NSClassFromString(@"PLCustomListController");
+            Class localizedClass = NSClassFromString(@"PLLocalizedListController");
+            BOOL isLocalizedBundle = ![sourceBundlePath.lastPathComponent isEqualToString:@"Preferences"];
+
+            if ((isLocalizedBundle && localizedClass) || customClass) {
+
+                PSSpecifier *specifier = specs.firstObject;
+                [specifier setValue:(isLocalizedBundle ? localizedClass : customClass) forKey:@"detailControllerClass"];
+                [specifier setProperty:prefBundle forKey:@"pl_bundle"];
+
+                if (![specifier.properties[PSTitleKey] isEqualToString:title]) {
+                    [specifier setProperty:title forKey:@"pl_alt_plist_name"];
+                    if (!specifier.name) specifier.name = title;
+                }
+            }
+        }
+
+        return specs;
+    };
+
+    NSArray *preferenceBundlePaths = [NSFileManager.defaultManager subpathsOfDirectoryAtPath:@"/Library/PreferenceLoader/Preferences" error:nil];
+
+    for (NSString *item in preferenceBundlePaths)
+    {
+        if (![item.pathExtension isEqualToString:@"plist"]) continue;
+
+        NSString *plistPath = [NSString stringWithFormat:@"/Library/PreferenceLoader/Preferences/%@", item];
+        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+
+        if (!plist[@"entry"]) continue;
+        if (!PREFERENCE_FILTER_PASSES_ENVIRONMENT_CHECKS(plist[@"filter"] ?: plist[@"pl_filter"])) continue;
+        if (!PREFERENCE_FILTER_PASSES_ENVIRONMENT_CHECKS(plist[@"entry"][@"pl_filter"])) continue;
+
+        NSString *bundlePath = [plistPath stringByDeletingLastPathComponent];
+        NSString *title = [item.lastPathComponent stringByDeletingPathExtension];
+        BOOL customInstall = access("/var/lib/dpkg/info/com.artikus.preferenceloader.list", F_OK) == 0
+                || access("/var/lib/dpkg/info/com.creaturecoding.preferred.list", F_OK) == 0;
+
+        NSArray *itemSpecifiers = !customInstall
+                ? SPECIFIERS_FROM_ENTRY(plist[@"entry"], bundlePath, title, self)
+                : [self specifiersFromEntry:plist[@"entry"] sourcePreferenceLoaderBundlePath:bundlePath title:title];
+
+        if (itemSpecifiers && itemSpecifiers.count)
+        {
+            [preferenceSpecifiers addObjectsFromArray:itemSpecifiers];
         }
     }
 
