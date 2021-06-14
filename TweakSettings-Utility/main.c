@@ -6,7 +6,6 @@
 #include <dlfcn.h>
 #include <sys/stat.h>
 
-extern int reboot3(uint64_t arg);
 int proc_pidpath(pid_t pid, void *buffer, uint32_t buffersize);
 
 typedef enum {
@@ -53,6 +52,18 @@ void print_usage() {
 	printf("[--tweakinject]:\n\ttoggle tweakinject on the device (libhooker only)\n");
 	printf("[--help]:\n\tshows this help text\n\n");
 	printf("tweaksettings-utility is for use only by TweakSettings\n\n");
+}
+
+int status_for_cmd(const char *cmd) {
+    FILE *proc = popen(cmd, "r");
+
+    if (!proc) {return EXIT_FAILURE;}
+
+    int size = 1024;
+    char data[size];
+    while (fgets(data, size, proc) != NULL) {}
+
+    return pclose(proc);
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -136,13 +147,13 @@ int main(int argc, char **argv, char **envp) {
 			execlp("/usr/bin/uicache", "uicache", NULL);
 		} break;
 		case TSUtilityActionTypeReboot: {
-			execlp("/usr/bin/reboot", "reboot", NULL);
+			execlp("/usr/sbin/reboot", "reboot", NULL);
 		} break;
 		case TSUtilityActionTypeLDRestart: {
 			execlp("/usr/bin/ldrestart", "ldrestart", NULL);
 		} break;
 		case TSUtilityActionTypeUSReboot: {
-			status = reboot3(0x2000000000000000ULL);
+            status = status_for_cmd("/usr/bin/launchctl reboot userspace");
 		} break;
 		case TSUtilityActionTypeTweakinject: {
 

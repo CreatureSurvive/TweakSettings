@@ -119,6 +119,7 @@ __END_DECLS
 @interface PSSpecifier : NSObject {
 @public
 	SEL action;
+	Class detailControllerClass;
 }
 
 + (instancetype)preferenceSpecifierNamed:(NSString *)identifier target:(id)target set:(SEL)set get:(SEL)get detail:(Class)detail cell:(PSCellType)cellType edit:(Class)edit;
@@ -142,5 +143,8 @@ __END_DECLS
 
 @property (nonatomic) SEL controllerLoadAction;
 - (Class)detailControllerClass;
+
+-(SEL)controllerLoadAction;
+-(void)performControllerLoadAction;
 
 @end

@@ -128,17 +128,14 @@ UIMenu *ActionListMenu(id sender) API_AVAILABLE(ios(13.0)) {
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(REBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
         [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeReboot withConfirmationSender:sender];
     }]];
-    [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(USREBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUserspaceReboot withConfirmationSender:sender];
-    }]];
     if (userspace_supported) {
-        [UIAction actionWithTitle:NSLocalizedString(USREBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
+        [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(USREBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
             [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUserspaceReboot withConfirmationSender:sender];
-        }];
+        }]];
     }
-    [UIAction actionWithTitle:NSLocalizedString(TWEAKINJECT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
+    [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(TWEAKINJECT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
         [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeTweakInject withConfirmationSender:sender];
-    }];
+    }]];
 
     return [UIMenu menuWithTitle:@"" children:menuActions];
 }

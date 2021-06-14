@@ -10,4 +10,7 @@
 
 @interface TSRootListController : TSSearchableListController
 
+@property (nonatomic, strong) NSString *launchIdentifier;
+
+- (void)pushToLaunchIdentifier;
 @end

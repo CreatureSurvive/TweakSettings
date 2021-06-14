@@ -18,6 +18,8 @@
 		B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
 		B871CDA0265601110058F1C2 /* icon_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B871CD9F265601110058F1C2 /* icon_large.png */; };
 		B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B871CDB5265991710058F1C2 /* Localizable.strings */; };
+		B8917F68267590B700A9DA57 /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8917F67267590B700A9DA57 /* CoreSpotlight.framework */; };
+		B8917F6A2675944E00A9DA57 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8917F692675944E00A9DA57 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		B871CD802655F1050058F1C2 /* TS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TS-Prefix.pch"; sourceTree = "<group>"; };
 		B871CD9F265601110058F1C2 /* icon_large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_large.png; sourceTree = "<group>"; };
 		B871CDB4265991710058F1C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B8917F67267590B700A9DA57 /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
+		B8917F692675944E00A9DA57 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8917F68267590B700A9DA57 /* CoreSpotlight.framework in Frameworks */,
+				B8917F6A2675944E00A9DA57 /* CoreServices.framework in Frameworks */,
 				B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,6 +126,8 @@
 		B86FC5D226645DC50011E4AF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8917F692675944E00A9DA57 /* CoreServices.framework */,
+				B8917F67267590B700A9DA57 /* CoreSpotlight.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -276,7 +284,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TweakSettings-App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.creaturecoding.tweaksettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -360,7 +368,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TweakSettings-App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.creaturecoding.tweaksettings;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

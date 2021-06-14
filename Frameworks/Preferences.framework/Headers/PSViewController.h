@@ -1,4 +1,4 @@
-@class PSSpecifier;
+@class PSSpecifier, PSRootController;
 
 @interface PSViewController : UIViewController
 
@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) PSSpecifier *specifier;
 @property (nonatomic, retain) PSViewController *parentController;
-@property (nonatomic, retain) PSViewController *rootController;
+@property (nonatomic, retain) PSRootController *rootController;
 
 - (void)suspend;
 

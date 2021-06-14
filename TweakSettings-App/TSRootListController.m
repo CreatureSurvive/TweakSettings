@@ -6,12 +6,18 @@
 //
 //
 
+#import <CoreSpotlight/CoreSpotlight.h>
+#import <CoreServices/CoreServices.h>
 #import <Preferences/PSSpecifier.h>
 #import <dlfcn.h>
 #import "TSRootListController.h"
+#import "TSAppDelegate.h"
 #import "Localizable.h"
 #import "libprefs.h"
-#import "TSAppDelegate.h"
+
+@interface UIBarButtonItem (iOS14)
+- (id)initWithTitle:(NSString *)table menu:(UIMenu *)menu API_AVAILABLE(ios(13.0));
+@end
 
 @interface TSRootListController ()
 
@@ -36,6 +42,12 @@
     self.table.refreshControl = _refreshControl;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+    [self pushToLaunchIdentifier];
+}
+
 - (NSMutableArray *)specifiers {
     if (!_specifiers) {
         NSMutableArray *specifiers = [self loadTweakSpecifiers].mutableCopy;
@@ -56,6 +68,28 @@
     }
 
     return _specifiers;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    if (!cell.gestureRecognizers.count) {
+        [cell addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleCellLongPress:)]];
+    }
+    return cell;
+}
+
+- (void)handleCellLongPress:(UILongPressGestureRecognizer *)sender {
+
+    if (sender.state == UIGestureRecognizerStateBegan) {
+
+        CGPoint point = [sender locationInView:self.table];
+        NSIndexPath *indexPath = [self.table indexPathForRowAtPoint:point];
+        PSSpecifier *specifier = [self specifierAtIndexPath:indexPath];
+        NSString *urlString = [NSString stringWithFormat:@"prefs:root=%@", specifier.identifier];
+        NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+
+        [(TSAppDelegate *)UIApplication.sharedApplication openApplicationURL:url];
+    }
 }
 
 - (NSArray<PSSpecifier *> *)loadTweakSpecifiers {
@@ -92,7 +126,7 @@
         }
 
         NSBundle *prefBundle = [NSBundle bundleWithPath:(isBundle ? bundlePath : sourceBundlePath)];
-        NSArray *bundleControllers = [listController valueForKey:@"_bundleControllers"];
+        NSMutableArray *bundleControllers = [listController valueForKey:@"_bundleControllers"];
 
         void *handle = dlopen("/System/Library/PrivateFrameworks/Preferences.framework/Preferences", RTLD_LAZY);
         NSArray *(*_SpecifiersFromPlist)(NSDictionary *,PSSpecifier *,id ,NSString *,NSBundle *,NSString **,NSString **,PSListController *,NSMutableArray **) = dlsym(handle, "SpecifiersFromPlist");
@@ -130,13 +164,14 @@
     };
 
     NSArray *preferenceBundlePaths = [NSFileManager.defaultManager subpathsOfDirectoryAtPath:@"/Library/PreferenceLoader/Preferences" error:nil];
+    NSMutableArray *searchableItems = [NSMutableArray new];
 
     for (NSString *item in preferenceBundlePaths)
     {
         if (![item.pathExtension isEqualToString:@"plist"]) continue;
 
         NSString *plistPath = [NSString stringWithFormat:@"/Library/PreferenceLoader/Preferences/%@", item];
-        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+        NSDictionary *plist = DICTIONARY_WITH_PLIST(plistPath);
 
         if (!plist[@"entry"]) continue;
         if (!PREFERENCE_FILTER_PASSES_ENVIRONMENT_CHECKS(plist[@"filter"] ?: plist[@"pl_filter"])) continue;
@@ -153,6 +188,23 @@
 
         if (itemSpecifiers && itemSpecifiers.count)
         {
+            for (PSSpecifier *specifier in itemSpecifiers)
+            {
+                if (![specifier propertyForKey:PSIconImageKey]) {
+                    [specifier setProperty:[UIImage imageNamed:@"tweak"] forKey:PSIconImageKey];
+                }
+
+                CSSearchableItemAttributeSet *attributeSet = [[CSSearchableItemAttributeSet alloc] initWithItemContentType:(NSString *) kUTTypeImage];
+                attributeSet.title = specifier.name;
+                attributeSet.contentDescription = [NSString stringWithFormat:@"Tweak Settings \u2192 %@", specifier.name];
+                attributeSet.thumbnailData = UIImagePNGRepresentation([specifier propertyForKey:PSIconImageKey]);
+                attributeSet.keywords = @[@"tweaks", @"packages", @"jailbreak", specifier.name];
+
+                NSString *uniqueIdentifier = [NSString stringWithFormat:@"%@", specifier.identifier];
+                CSSearchableItem *searchItem = [[CSSearchableItem alloc] initWithUniqueIdentifier:uniqueIdentifier domainIdentifier:@"com.creaturecoding.tweaksettings" attributeSet:attributeSet];
+                [searchableItems addObject:searchItem];
+            }
+
             [preferenceSpecifiers addObjectsFromArray:itemSpecifiers];
         }
     }
@@ -162,6 +214,10 @@
                 [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]
         ];
     }
+
+    [CSSearchableIndex.defaultSearchableIndex deleteAllSearchableItemsWithCompletionHandler:^(NSError *error) {
+        [CSSearchableIndex.defaultSearchableIndex indexSearchableItems:searchableItems completionHandler:nil];
+    }];
 
     return preferenceSpecifiers;
 }
@@ -174,6 +230,42 @@
 - (void)handleActionButtonTapped:(UIBarButtonItem *)sender {
 
     [self.navigationController presentViewController:ActionListAlert(sender) animated:YES completion:nil];
+}
+
+- (void)pushToLaunchIdentifier {
+
+    if (_launchIdentifier) {
+        PSSpecifier *specifier = [self specifierForID:_launchIdentifier];
+
+        if (specifier) {
+
+            [specifier performControllerLoadAction];
+
+            Class detailClass = [specifier respondsToSelector:@selector(detailControllerClass)]
+                    ? [specifier detailControllerClass]
+                    : [specifier valueForKey:@"detailControllerClass"]
+                            ? : NSClassFromString(@"PLCustomListController");
+
+            if ([detailClass isSubclassOfClass:PSViewController.class]) {
+
+                id controller = [detailClass alloc];
+                controller = ([controller respondsToSelector:@selector(initForContentSize:)])
+                        ? [controller initForContentSize:UIScreen.mainScreen.bounds.size]
+                        : [controller init];
+
+                if (controller && [controller isKindOfClass:PSViewController.class]) {
+
+                    [controller setRootController:self.rootController];
+                    [controller setParentController:self];
+                    [controller setSpecifier:specifier];
+                }
+
+                [self.navigationController pushViewController:controller animated:NO];
+            }
+        }
+    }
+
+    _launchIdentifier = nil;
 }
 
 @end

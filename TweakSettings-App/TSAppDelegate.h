@@ -14,5 +14,6 @@
 @property(strong, nonatomic) UIWindow *window;
 
 - (void)handleActionForType:(NSString *)actionType withConfirmationSender:(id)sender;
+- (void)openApplicationURL:(NSURL *)url;
 
 @end

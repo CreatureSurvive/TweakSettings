@@ -7,6 +7,8 @@
 //
 
 #import <Preferences/PSRootController.h>
+#import <CoreSpotlight/CoreSpotlight.h>
+#import <dlfcn.h>
 #import "TSAppDelegate.h"
 #import "TSRootListController.h"
 #import "Localizable.h"
@@ -19,6 +21,7 @@ void HandleExceptions(NSException *exception) {
 
 @property(nonatomic, strong) PSRootController *rootController;
 @property(nonatomic, strong) TSRootListController *rootListController;
+@property(nonatomic, strong) NSString *launchIdentifier;
 
 @end
 
@@ -38,6 +41,8 @@ void HandleExceptions(NSException *exception) {
 
     _rootListController = [TSRootListController new];
     _rootController = [[PSRootController alloc] initWithRootViewController:_rootListController];
+    _rootListController.rootController = _rootController;
+    _rootListController.launchIdentifier = _launchIdentifier;
 
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     self.window.rootViewController = _rootController;
@@ -78,10 +83,16 @@ void HandleExceptions(NSException *exception) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
 
-    if ([url.scheme isEqualToString:@"tweaks:"]) {
-        [_rootController handleURL:url];
+    if ([url.scheme isEqualToString:@"tweaks"]) {
+
+        NSString *urlString = url.absoluteString;
+
+        if ([urlString containsString:@"root="]) {
+            self.launchIdentifier =  [urlString substringFromIndex:[urlString rangeOfString:@"root="].location + 5];
+        }
+
         return YES;
     }
 
@@ -92,6 +103,15 @@ void HandleExceptions(NSException *exception) {
 
     [self handleActionForType:shortcutItem.type withConfirmationSender:nil];
     completionHandler(YES);
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+
+    if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
+        self.launchIdentifier = [userActivity.userInfo[CSSearchableItemActivityIdentifier] stringByReplacingOccurrencesOfString:@"tweaks:root=" withString:@""];
+    }
+
+    return YES;
 }
 
 - (void)handleActionForType:(NSString *)actionType withConfirmationSender:(id)sender {
@@ -115,6 +135,26 @@ void HandleExceptions(NSException *exception) {
     }
 
     [self.rootController presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)setLaunchIdentifier:(NSString *)launchIdentifier {
+
+    _launchIdentifier = [launchIdentifier stringByReplacingOccurrencesOfString:@"tweaks:root=" withString:@""];
+    _launchIdentifier = launchIdentifier;
+    _rootListController.launchIdentifier = launchIdentifier;
+
+    [_rootController popToRootViewControllerAnimated:NO];
+    [_rootListController pushToLaunchIdentifier];
+}
+
+- (void)openApplicationURL:(NSURL *)url {
+
+    void (*SBSOpenSensitiveURLAndUnlock)(NSURL *, BOOL);
+    if ((SBSOpenSensitiveURLAndUnlock = (void (*)(NSURL *, BOOL)) dlsym(RTLD_DEFAULT, "SBSOpenSensitiveURLAndUnlock"))) {
+        (*SBSOpenSensitiveURLAndUnlock)(url, YES);
+    } else if (@available(iOS 10,*)) {
+        [self openURL:url options:@{} completionHandler:nil];
+    }
 }
 
 @end

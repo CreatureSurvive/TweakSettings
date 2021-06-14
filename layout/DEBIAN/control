@@ -1,7 +1,7 @@
 Package: com.creaturecoding.tweaksettings
 Name: TweakSettings
 Depends: firmware (>= 10.0), preferenceloader | com.creaturecoding.preferred
-Version: 1.0.4
+Version: 1.0.5
 Priority: optional
 Architecture: iphoneos-arm
 Description: Dedicated settings app for tweaks
