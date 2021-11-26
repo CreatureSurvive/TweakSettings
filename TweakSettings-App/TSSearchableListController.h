@@ -13,6 +13,8 @@
 
 @interface TSSearchableListController : PSListController <UISearchBarDelegate, UISearchResultsUpdating>
 
-@property(nonatomic, strong) NSMutableArray<PSSpecifier *> *unfilteredSpecifiers;
+@property (nonatomic, strong) NSMutableArray<PSSpecifier *> *unfilteredSpecifiers;
+@property (nonatomic, assign) BOOL searchOnLoad;
+@property (nonatomic, assign) BOOL showOnLoad;
 
 @end

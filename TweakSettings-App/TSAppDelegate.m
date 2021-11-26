@@ -6,29 +6,24 @@
 //
 //
 
-#import <Preferences/PSRootController.h>
+#import "TSAppDelegate.h"
 #import <CoreSpotlight/CoreSpotlight.h>
 #import <dlfcn.h>
-#import "TSAppDelegate.h"
 #import "TSRootListController.h"
 #import "Localizable.h"
+#import "TSRootNavigationManager.h"
+#import "TSUserDefaults.h"
 
-void HandleExceptions(NSException *exception) {
-    NSLog(@"unhandled exception: %@", [exception debugDescription]);
+
+static void HandleExceptions(NSException *exception) {
+    NSLog(@"TweakSettings unhandled exception: %@", exception.debugDescription);
 }
-
-@interface TSAppDelegate ()
-
-@property(nonatomic, strong) PSRootController *rootController;
-@property(nonatomic, strong) TSRootListController *rootListController;
-@property(nonatomic, strong) NSString *launchIdentifier;
-
-@end
 
 @implementation TSAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+#pragma mark - UIApplicationDelegate
+
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary<UIApplicationLaunchOptionsKey, id> *)launchOptions {
 
     NSSetUncaughtExceptionHandler(&HandleExceptions);
 
@@ -39,58 +34,40 @@ void HandleExceptions(NSException *exception) {
             [[UIApplicationShortcutItem alloc] initWithType:TSActionTypeRespring localizedTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) localizedSubtitle:NSLocalizedString(RESPRING_SUBTITLE_KEY, nil) icon:nil userInfo:nil]
     ];
 
-    _rootListController = [TSRootListController new];
-    _rootController = [[PSRootController alloc] initWithRootViewController:_rootListController];
-    _rootListController.rootController = _rootController;
-    _rootListController.launchIdentifier = _launchIdentifier;
+    _navigationManager = [TSRootNavigationManager new];
 
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    self.window.rootViewController = _rootController;
+    self.window.rootViewController = (id)_navigationManager.splitController;
     [self.window makeKeyAndVisible];
+
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     if (launchOptions[UIApplicationLaunchOptionsShortcutItemKey]) {
 
-        [self handleActionForType:[(UIApplicationShortcutItem *)launchOptions[UIApplicationLaunchOptionsShortcutItemKey] type] withConfirmationSender:nil];
+        [self handleActionForType:[(UIApplicationShortcutItem *)launchOptions[UIApplicationLaunchOptionsShortcutItemKey] type]];
+        return NO;
+    }
+
+    if (launchOptions[UIApplicationLaunchOptionsURLKey]) {
+
+        [self.navigationManager.rootListController setShowOnLoad:NO];
+        [self.navigationManager setDeferredLoadURL:launchOptions[UIApplicationLaunchOptionsURLKey]];
         return NO;
     }
 
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-}
-
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-}
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
 
     if ([url.scheme isEqualToString:@"tweaks"]) {
 
-        NSString *urlString = url.absoluteString;
+        if (self.navigationManager.rootListController.rootListLoaded) {
 
-        if ([urlString containsString:@"root="]) {
-            self.launchIdentifier =  [urlString substringFromIndex:[urlString rangeOfString:@"root="].location + 5];
+            [self.navigationManager processURL:url animated:YES];
         }
 
         return YES;
@@ -101,50 +78,55 @@ void HandleExceptions(NSException *exception) {
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
-    [self handleActionForType:shortcutItem.type withConfirmationSender:nil];
+    [self handleActionForType:shortcutItem.type];
     completionHandler(YES);
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> *))restorationHandler {
 
     if ([userActivity.activityType isEqualToString:CSSearchableItemActionType]) {
-        self.launchIdentifier = [userActivity.userInfo[CSSearchableItemActivityIdentifier] stringByReplacingOccurrencesOfString:@"tweaks:root=" withString:@""];
+        NSURL *launchURL = [NSURL URLWithString:userActivity.userInfo[CSSearchableItemActivityIdentifier]];
+        [self.navigationManager processURL:launchURL animated:NO];
     }
 
     return YES;
 }
 
-- (void)handleActionForType:(NSString *)actionType withConfirmationSender:(id)sender {
+#pragma mark - Public Methods
 
-    UIAlertController *controller = ActionAlertForType(actionType);
+- (void)presentAsPopover:(UIViewController *)controller withSender:(id)sender {
+
+    if (sender == nil) sender = _navigationManager.rootListController.navigationItem.rightBarButtonItem;
+    self.popoverSender = sender;
+
     controller.modalPresentationStyle = UIModalPresentationPopover;
 
     if (sender && [sender isKindOfClass:UIBarButtonItem.class]) {
-
         controller.popoverPresentationController.barButtonItem = sender;
+    }
+    else if (sender && [sender isKindOfClass:UIView.class]) {
+        controller.popoverPresentationController.sourceRect = [sender bounds];
+        controller.popoverPresentationController.sourceView = sender;
+        controller.popoverPresentationController.permittedArrowDirections = (UIPopoverArrowDirection)0;
+    }
 
-    } else if (sender && [sender isKindOfClass:UIView.class]) {
+    [_navigationManager.rootListController presentViewController:controller animated:YES completion:nil];
+}
 
-        controller.popoverPresentationController.sourceView = (UIView *)sender;
-        controller.popoverPresentationController.sourceRect = ((UIView *)sender).bounds;
+- (void)presentViewController:(UIViewController *)controller {
+    [_navigationManager.topNavigationController presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)handleActionForType:(NSString *)actionType {
+
+    if (CanRunWithoutConfirmation(actionType) && !TSUserDefaults.sharedDefaults.requireActionConfirmation) {
+
+        HandleActionForType(actionType);
 
     } else {
 
-        controller.popoverPresentationController.sourceView = self.rootController.view;
-        controller.popoverPresentationController.sourceRect = self.rootController.view.bounds;
+        [self presentAsPopover:ActionAlertForType(actionType) withSender:_popoverSender];
     }
-
-    [self.rootController presentViewController:controller animated:YES completion:nil];
-}
-
-- (void)setLaunchIdentifier:(NSString *)launchIdentifier {
-
-    _launchIdentifier = [launchIdentifier stringByReplacingOccurrencesOfString:@"tweaks:root=" withString:@""];
-    _launchIdentifier = launchIdentifier;
-    _rootListController.launchIdentifier = launchIdentifier;
-
-    [_rootController popToRootViewControllerAnimated:NO];
-    [_rootListController pushToLaunchIdentifier];
 }
 
 - (void)openApplicationURL:(NSURL *)url {
@@ -155,6 +137,11 @@ void HandleExceptions(NSException *exception) {
     } else if (@available(iOS 10,*)) {
         [self openURL:url options:@{} completionHandler:nil];
     }
+}
+
+- (void)generateURL {
+    NSURL *url = [self.navigationManager urlForCurrentNavStack];
+    [NSUserDefaults.standardUserDefaults setObject:url.absoluteString forKey:@"kPreferencePositionKey"];
 }
 
 @end

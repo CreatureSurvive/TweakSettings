@@ -22,7 +22,28 @@
 /* Application Root Navigation Title */
 "ROOT_NAVIGATION_TITLE_KEY" = "Tweaks";
 "ROOT_NAVIGATION_RIGHT_TITLE_KEY" = "Actions";
+"ROOT_NAVIGATION_LEFT_TITLE_KEY" = "Settings";
 
 /* Alert Strings */
 "ALERT_CANCEL_TITLE_KEY" = "Cancel";
+"ALERT_DISMISS_TITLE_KEY" = "Dismiss";
 "ALERT_ACTION_MESSAGE_KEY" = "This action will: %@\n\nAre you sure you want to proceed?";
+
+/* App Settings Strings */
+"ALWAYS_SHOW_SEARCH_BAR_NAME_KEY" = "Always Show SearchBar";
+"ALWAYS_SHOW_SEARCH_BAR_GROUP_KEY" = "When enabled, the search bar on the root page will always be visible, even when scrolling";
+"REQUIRE_ACTION_CONFIRMATION_NAME_KEY" = "Require Action Confirmation";
+"REQUIRE_ACTION_CONFIRMATION_GROUP_KEY" = "When enabled, actions will show a confirmation alert before executing. Note that Reboot, LDRestart, and Userspace Reboot actions will always show a confirmation alert before executing";
+"LONG_PRESS_OPENS_SETTINGS_NAME_KEY" = "Long Press Opens Settings";
+"LONG_PRESS_OPENS_SETTINGS_GROUP_KEY" = "When enabled, long pressing a cell on the root page will open the respective tweak in the Settings app";
+"USE_LARGE_TITLES_ON_ROOT_LIST_NAME_KEY" = "Use Large Titles";
+"USE_LARGE_TITLES_ON_ROOT_LIST_GROUP_KEY" = "When enabled, the root page will use a large navigation title";
+"APP_SETTINGS_TITLE_NAME_KEY" = "App Settings";
+"SOURCE_CODE_NAME_KEY" = "Source Code";
+"APP_VERSION_NAME_KEY" = "App Version";
+
+/* Check For Update Strings */
+"CHECK_FOR_UPDATES_TITLE_KEY" = "Checking For Updates";
+"CHECK_FOR_UPDATES_ERROR_MESSAGE_KEY" = "There was an error checking for updates, please try again later, or check your network.";
+"CHECK_FOR_UPDATES_PASS_MESSAGE_KEY" = "No updates available, (v%@) is the latest version";
+"CHECK_FOR_UPDATES_FAIL_MESSAGE_KEY" = "Update available, (v%@) has been released";

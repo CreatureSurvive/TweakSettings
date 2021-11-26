@@ -118,14 +118,23 @@ __END_DECLS
 
 @interface PSSpecifier : NSObject {
 @public
-	SEL action;
 	Class detailControllerClass;
+	id target;
+	SEL getter;
+	SEL setter;
+	SEL action;
+	SEL cancel;
+	SEL _confirmationAction;
+	SEL _confirmationCancelAction;
+	SEL _buttonAction;
+	SEL _controllerLoadAction;
 }
 
 + (instancetype)preferenceSpecifierNamed:(NSString *)identifier target:(id)target set:(SEL)set get:(SEL)get detail:(Class)detail cell:(PSCellType)cellType edit:(Class)edit;
 + (instancetype)emptyGroupSpecifier;
 + (instancetype)groupSpecifierWithName:(NSString *)name;
 
+@property (nonatomic,retain) NSArray * values;
 @property (nonatomic, retain) id target;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *identifier;
@@ -146,5 +155,8 @@ __END_DECLS
 
 -(SEL)controllerLoadAction;
 -(void)performControllerLoadAction;
+
+- (void)setValues:(NSArray *)values titles:(NSArray *)titles;
+- (void)setValues:(NSArray *)values titles:(NSArray *)titles shortTitles:(NSArray *)shortTitles;
 
 @end

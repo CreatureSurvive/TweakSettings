@@ -41,6 +41,14 @@ NSString *SubtitleForActionType(NSString *type) {
     return nil;
 }
 
+BOOL CanRunWithoutConfirmation(NSString *actionType) {
+
+    if (!actionType || !actionType.length) return NO;
+    return !([actionType isEqualToString:TSActionTypeReboot]
+        || [actionType isEqualToString:TSActionTypeLDRestart]
+        || [actionType isEqualToString:TSActionTypeUserspaceReboot]);
+};
+
 int HandleActionForType(NSString *actionType) {
 
     if (!actionType || !actionType.length) return EXIT_FAILURE;
@@ -63,7 +71,7 @@ UIAlertController *ActionAlertForType(NSString *actionType) {
 
     NSString *title = TitleForActionType(actionType);
     NSString *message = [NSString stringWithFormat:NSLocalizedString(ALERT_ACTION_MESSAGE_KEY, nil), SubtitleForActionType(actionType)];
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
     [controller addAction:[UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         HandleActionForType(actionType);
@@ -73,68 +81,66 @@ UIAlertController *ActionAlertForType(NSString *actionType) {
     return controller;
 }
 
-UIAlertController *ActionListAlert(id sender) {
+UIAlertController *ActionListAlert(void) {
 
     BOOL userspace_supported = access("/odyssey/jailbreakd.plist", F_OK) == 0 || access("/taurine/jailbreakd.plist", F_OK) == 0;
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    controller.modalPresentationStyle = UIModalPresentationPopover;
-    controller.popoverPresentationController.barButtonItem = sender;
 
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeRespring withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeRespring];
     }]];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(SAFEMODE_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeSafemode withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeSafemode];
     }]];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(UICACHE_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUICache withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeUICache];
     }]];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(LDRESTART_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeLDRestart withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeLDRestart];
     }]];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(REBOOT_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeReboot withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeReboot];
     }]];
     if (userspace_supported) {
         [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(USREBOOT_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUserspaceReboot withConfirmationSender:sender];
+            [APP_DELEGATE handleActionForType:TSActionTypeUserspaceReboot];
         }]];
     }
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(TWEAKINJECT_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeTweakInject withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeTweakInject];
     }]];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(ALERT_CANCEL_TITLE_KEY, nil) style:UIAlertActionStyleCancel handler:nil]];
 
     return controller;
 }
 
-UIMenu *ActionListMenu(id sender) API_AVAILABLE(ios(13.0)) {
+UIMenu *ActionListMenu(void) API_AVAILABLE(ios(13.0)) {
 
     NSMutableArray *menuActions = [NSMutableArray new];
     BOOL userspace_supported = access("/odyssey/jailbreakd.plist", F_OK) == 0 || access("/taurine/jailbreakd.plist", F_OK) == 0;
 
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeRespring withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeRespring];
     }]];
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(SAFEMODE_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeSafemode withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeSafemode];
     }]];
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(UICACHE_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUICache withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeUICache];
     }]];
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(LDRESTART_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeLDRestart withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeLDRestart];
     }]];
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(REBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeReboot withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeReboot];
     }]];
     if (userspace_supported) {
         [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(USREBOOT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-            [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeUserspaceReboot withConfirmationSender:sender];
+            [APP_DELEGATE handleActionForType:TSActionTypeUserspaceReboot];
         }]];
     }
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(TWEAKINJECT_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
-        [((TSAppDelegate *)UIApplication.sharedApplication) handleActionForType:TSActionTypeTweakInject withConfirmationSender:sender];
+        [APP_DELEGATE handleActionForType:TSActionTypeTweakInject];
     }]];
 
     return [UIMenu menuWithTitle:@"" children:menuActions];

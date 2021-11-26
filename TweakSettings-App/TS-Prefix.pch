@@ -50,9 +50,9 @@ NS_INLINE __unused NSObject *OBJECT_WITH_PLIST_OPTIONS(NSString *path, NSPropert
 NS_INLINE __unused NSDictionary *DICTIONARY_WITH_PLIST_OPTIONS(NSString *path, NSPropertyListReadOptions options) {
     NSObject *object = OBJECT_WITH_PLIST_OPTIONS(path, options);
     if (object && [object isKindOfClass:NSDictionary.class]) {
-        NSLog(@"ERROR (property-list file at %@ is not a dictionary)", path);
         return (NSDictionary *) object;
     }
+    NSLog(@"ERROR (property-list file at %@ is not a dictionary)", path);
     return nil;
 }
 
@@ -63,9 +63,9 @@ NS_INLINE __unused NSDictionary *DICTIONARY_WITH_PLIST(NSString *path) {
 NS_INLINE __unused NSArray *ARRAY_WITH_PLIST_OPTIONS(NSString *path, NSPropertyListReadOptions options) {
     NSObject *object = OBJECT_WITH_PLIST_OPTIONS(path, options);
     if (object && [object isKindOfClass:NSArray.class]) {
-        NSLog(@"ERROR (property-list file at %@ is not an array)", path);
         return (NSArray *) object;
     }
+    NSLog(@"ERROR (property-list file at %@ is not an array)", path);
     return nil;
 }
 

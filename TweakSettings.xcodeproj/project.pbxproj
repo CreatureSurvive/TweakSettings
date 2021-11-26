@@ -7,13 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B2410C17764CAD6DDF9697F /* TSPrefsRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2415C8F4F658811D457B2F /* TSPrefsRootController.m */; };
 		9B2413AFE1BFF43795ACA65A /* TSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241E3CD3D1F6D3B55609D3 /* TSAppDelegate.m */; };
 		9B24144D3CF66D6F611A33BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241B6A5EF71185ECED8986 /* main.m */; };
+		9B2414620AAAA9E6F0EFA9C5 /* TSRootNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B24160C2F81CDF8D1985651 /* TSRootNavigationManager.m */; };
+		9B24150C2229EB2912D6B972 /* TSSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2419707513EEC97C39BA0C /* TSSplitViewController.m */; };
 		9B2417125AF333AF7433AE3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B241145674E6322664B2C03 /* Assets.xcassets */; };
 		9B2417E56F6BC6F4E56A7C8A /* libraries.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B241CBB0D66BA984E5ACE30 /* libraries.plist */; };
+		9B2418031071B898F6F6C4C3 /* TSChangelogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241C07A10B2F57EE3E6BDE /* TSChangelogController.m */; };
+		9B2418FA5B1C717A218F1CB0 /* TSPackageUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241D1EF08E980D0C398043 /* TSPackageUtility.m */; };
+		9B2419DE2F448CE206B96E8D /* TSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B24192FDF28BB2496BBEA7B /* TSUserDefaults.m */; };
+		9B241A7A916D4D6CAE569F3E /* TSUtilityActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241649FFFF894DC1194290 /* TSUtilityActionManager.m */; };
 		9B241AD7EE27F4BB6C24537F /* TSRootListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2413E3DE3004D22E25AAFB /* TSRootListController.m */; };
-		9B241E08CA97D4D566147CE2 /* TSUtilityActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */; };
 		9B241E2F90DD7CBD64A43B51 /* TSSearchableListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241E51979762427B0DEF19 /* TSSearchableListController.m */; };
+		9B241FBC80A9F03FB421F1D3 /* TSOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241D3DD023C428A7AD45EF /* TSOptionsController.m */; };
 		9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B241DE01047656B78369A94 /* LaunchScreen.storyboard */; };
 		B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
 		B871CDA0265601110058F1C2 /* icon_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B871CD9F265601110058F1C2 /* icon_large.png */; };
@@ -23,22 +30,36 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B2410F33CBF4A245569CC80 /* TSSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSplitViewController.h; sourceTree = "<group>"; };
 		9B241145674E6322664B2C03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B2411C5CDD06E84A912DF3A /* libprefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libprefs.h; sourceTree = "<group>"; };
-		9B2413D1010D1C1F36578888 /* TSUtilityActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtilityActionManager.h; sourceTree = "<group>"; };
+		9B24127C70ECB51EAE77F9EE /* TSPackageUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPackageUtility.h; sourceTree = "<group>"; };
 		9B2413E3DE3004D22E25AAFB /* TSRootListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRootListController.m; sourceTree = "<group>"; };
 		9B2413E6B518A0A99C895507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUtilityActionManager.m; sourceTree = "<group>"; };
+		9B24142E08BDFAEE4F8373EF /* TSChangelogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSChangelogController.h; sourceTree = "<group>"; };
 		9B2415BA8335FBD99BD1A482 /* TweakSettings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TweakSettings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B2415C8F4F658811D457B2F /* TSPrefsRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPrefsRootController.m; sourceTree = "<group>"; };
+		9B24160C2F81CDF8D1985651 /* TSRootNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRootNavigationManager.m; sourceTree = "<group>"; };
+		9B241649FFFF894DC1194290 /* TSUtilityActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUtilityActionManager.m; sourceTree = "<group>"; };
 		9B24169943CD9A7E1AA8E2FE /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAppDelegate.h; sourceTree = "<group>"; };
 		9B2416D9FECD758BFA318498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		9B24181BB83D9773FE8446BB /* TSPrefsRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPrefsRootController.h; sourceTree = "<group>"; };
+		9B24192FDF28BB2496BBEA7B /* TSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserDefaults.m; sourceTree = "<group>"; };
+		9B2419707513EEC97C39BA0C /* TSSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSplitViewController.m; sourceTree = "<group>"; };
 		9B2419CD47CC813402F66384 /* Localizable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizable.h; sourceTree = "<group>"; };
 		9B241B6A5EF71185ECED8986 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9B241B6FA0ACC48629D31472 /* TSUtilityActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtilityActionManager.h; sourceTree = "<group>"; };
 		9B241BDCA3396202FEB00F19 /* TSRootListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRootListController.h; sourceTree = "<group>"; };
+		9B241C07A10B2F57EE3E6BDE /* TSChangelogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSChangelogController.m; sourceTree = "<group>"; };
 		9B241CA30D8199267740AE3F /* TSSearchableListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSSearchableListController.h; sourceTree = "<group>"; };
 		9B241CBB0D66BA984E5ACE30 /* libraries.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = libraries.plist; sourceTree = "<group>"; };
+		9B241D1EF08E980D0C398043 /* TSPackageUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPackageUtility.m; sourceTree = "<group>"; };
+		9B241D3DD023C428A7AD45EF /* TSOptionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSOptionsController.m; sourceTree = "<group>"; };
+		9B241DE6A7BF5B084C8A0BA5 /* TSRootNavigationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRootNavigationManager.h; sourceTree = "<group>"; };
 		9B241E3CD3D1F6D3B55609D3 /* TSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TSAppDelegate.m; sourceTree = "<group>"; };
 		9B241E51979762427B0DEF19 /* TSSearchableListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TSSearchableListController.m; sourceTree = "<group>"; };
+		9B241F0ED97E09EE8CF883DB /* TSOptionsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSOptionsController.h; sourceTree = "<group>"; };
+		9B241F39E85CCB4B2115C9D7 /* TSUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUserDefaults.h; sourceTree = "<group>"; };
 		B86FC5C72663E8D80011E4AF /* entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = entitlements.plist; sourceTree = "<group>"; };
 		B86FC5C82663E8D80011E4AF /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		B86FC5C92663E8D80011E4AF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -99,8 +120,22 @@
 				9B2411C5CDD06E84A912DF3A /* libprefs.h */,
 				9B2419CD47CC813402F66384 /* Localizable.h */,
 				B871CDB5265991710058F1C2 /* Localizable.strings */,
-				9B2413D1010D1C1F36578888 /* TSUtilityActionManager.h */,
-				9B2415290925BE7BE1FAC79B /* TSUtilityActionManager.m */,
+				9B2415C8F4F658811D457B2F /* TSPrefsRootController.m */,
+				9B24181BB83D9773FE8446BB /* TSPrefsRootController.h */,
+				9B241DE6A7BF5B084C8A0BA5 /* TSRootNavigationManager.h */,
+				9B24160C2F81CDF8D1985651 /* TSRootNavigationManager.m */,
+				9B2410F33CBF4A245569CC80 /* TSSplitViewController.h */,
+				9B2419707513EEC97C39BA0C /* TSSplitViewController.m */,
+				9B241F0ED97E09EE8CF883DB /* TSOptionsController.h */,
+				9B241D3DD023C428A7AD45EF /* TSOptionsController.m */,
+				9B24127C70ECB51EAE77F9EE /* TSPackageUtility.h */,
+				9B241D1EF08E980D0C398043 /* TSPackageUtility.m */,
+				9B241F39E85CCB4B2115C9D7 /* TSUserDefaults.h */,
+				9B24192FDF28BB2496BBEA7B /* TSUserDefaults.m */,
+				9B241B6FA0ACC48629D31472 /* TSUtilityActionManager.h */,
+				9B241649FFFF894DC1194290 /* TSUtilityActionManager.m */,
+				9B241C07A10B2F57EE3E6BDE /* TSChangelogController.m */,
+				9B24142E08BDFAEE4F8373EF /* TSChangelogController.h */,
 			);
 			path = "TweakSettings-App";
 			sourceTree = "<group>";
@@ -243,7 +278,14 @@
 				9B2413AFE1BFF43795ACA65A /* TSAppDelegate.m in Sources */,
 				9B241E2F90DD7CBD64A43B51 /* TSSearchableListController.m in Sources */,
 				9B241AD7EE27F4BB6C24537F /* TSRootListController.m in Sources */,
-				9B241E08CA97D4D566147CE2 /* TSUtilityActionManager.m in Sources */,
+				9B2410C17764CAD6DDF9697F /* TSPrefsRootController.m in Sources */,
+				9B2414620AAAA9E6F0EFA9C5 /* TSRootNavigationManager.m in Sources */,
+				9B24150C2229EB2912D6B972 /* TSSplitViewController.m in Sources */,
+				9B241FBC80A9F03FB421F1D3 /* TSOptionsController.m in Sources */,
+				9B2418FA5B1C717A218F1CB0 /* TSPackageUtility.m in Sources */,
+				9B2419DE2F448CE206B96E8D /* TSUserDefaults.m in Sources */,
+				9B241A7A916D4D6CAE569F3E /* TSUtilityActionManager.m in Sources */,
+				9B2418031071B898F6F6C4C3 /* TSChangelogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

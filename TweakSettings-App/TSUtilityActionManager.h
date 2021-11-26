@@ -20,11 +20,12 @@ extern NSString *const TSActionTypeReboot;
 extern NSString *const TSActionTypeUserspaceReboot;
 extern NSString *const TSActionTypeTweakInject;
 
-extern inline NSString *TitleForActionType(NSString *type);
-extern inline NSString *SubtitleForActionType(NSString *type);
-extern inline int HandleActionForType(NSString *actionType);
-extern inline UIAlertController *ActionAlertForType(NSString *actionType);
-extern inline UIAlertController *ActionListAlert(id sender);
-extern inline UIMenu *ActionListMenu(id sender) API_AVAILABLE(ios(13.0));
+extern NSString *TitleForActionType(NSString *type);
+extern NSString *SubtitleForActionType(NSString *type);
+extern BOOL CanRunWithoutConfirmation(NSString *actionType);
+extern int HandleActionForType(NSString *actionType);
+extern UIAlertController *ActionAlertForType(NSString *actionType);
+extern UIAlertController *ActionListAlert(void);
+extern UIMenu *ActionListMenu(void) API_AVAILABLE(ios(13.0));
 
 #endif /* TSActionType_h */

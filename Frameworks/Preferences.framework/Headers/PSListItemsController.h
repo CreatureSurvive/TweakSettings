@@ -1,3 +1,4 @@
+#import <UIKit/UIViewController.h>
 #import <Preferences/PSListController.h>
 
 @class PSSpecifier;
