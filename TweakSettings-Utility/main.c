@@ -6,6 +6,9 @@
 #include <dlfcn.h>
 #include <sys/stat.h>
 
+#import "rootless.h"
+#include <errno.h>
+
 int proc_pidpath(pid_t pid, void *buffer, uint32_t buffersize);
 
 typedef enum {
@@ -66,11 +69,30 @@ int status_for_cmd(const char *cmd) {
     return pclose(proc);
 }
 
+int check_fork(pid_t pid) {
+    if (pid != 0) {
+        printf("tweaksettings-utility fork error (%s) (%d),\n", strerror(errno), errno);
+    }
+
+    return pid;
+}
+
+int wait_pid(pid_t pid) {
+    int wait;
+    int status;
+    if ((wait = waitpid (pid, &status, 0)) == -1)
+        printf("tweaksettings-utility wait error (%s) (%d),\n", strerror(errno), errno);
+    if (wait == pid) {
+        return 0;
+    }
+    return -1;
+}
+
 int main(int argc, char **argv, char **envp) {
 
 	// check that TweakSettings.app exists
 	struct stat correct;
-	if (lstat("/Applications/TweakSettings.app/TweakSettings", &correct) == -1){
+	if (lstat(ROOT_PATH("/Applications/TweakSettings.app/TweakSettings"), &correct) == -1){
 		printf("tweaksettings-utility can only be used by TweakSettings.app,\n");
 		return EX_NOPERM;
 	}
@@ -82,7 +104,7 @@ int main(int argc, char **argv, char **envp) {
 	char buffer[(1024)] = {0};
 	int pidpath = proc_pidpath(parent, buffer, sizeof(buffer));
 	if (pidpath > 0){
-		if (strcmp(buffer, "/Applications/TweakSettings.app/TweakSettings") == 0){
+		if (strcmp(buffer, ROOT_PATH("/Applications/TweakSettings.app/TweakSettings")) == 0){
 			tweaksettings = true;
 		}
 	}
@@ -138,43 +160,72 @@ int main(int argc, char **argv, char **envp) {
 			print_usage();
 		} break;
 		case TSUtilityActionTypeRespring: {
-			execlp("/usr/bin/killall", "killall", "backboardd", NULL);
+            status = execl(ROOT_PATH("/usr/bin/killall"), "killall", "backboardd", NULL);
 		} break;
 		case TSUtilityActionTypeSafemode: {
-			execlp("/usr/bin/killall", "killall", "-SEGV", "SpringBoard", NULL);
+		    status = execl(ROOT_PATH("/usr/bin/killall"), "killall", "-SEGV", "SpringBoard", NULL);
 		} break;
 		case TSUtilityActionTypeUICache: {
-			execlp("/usr/bin/uicache", "uicache", NULL);
+		    status = execl(ROOT_PATH("/usr/bin/uicache"), "uicache", NULL);
 		} break;
 		case TSUtilityActionTypeReboot: {
-			execlp("/usr/sbin/reboot", "reboot", NULL);
+		    status = execl(ROOT_PATH("/usr/sbin/reboot"), "reboot", NULL);
 		} break;
 		case TSUtilityActionTypeLDRestart: {
-			execlp("/usr/bin/ldrestart", "ldrestart", NULL);
+		    status = execl(ROOT_PATH("/usr/bin/ldrestart"), "ldrestart", NULL);
 		} break;
 		case TSUtilityActionTypeUSReboot: {
-            status = status_for_cmd("/usr/bin/launchctl reboot userspace");
+            status = execl(ROOT_PATH("/usr/bin/launchctl"), "launchctl", "reboot", "userspace", NULL);
 		} break;
 		case TSUtilityActionTypeTweakinject: {
+            if (access("/var/jb/.installed_dopamine", F_OK) == 0) {
+                pid_t cpid = fork();
+                if (cpid == 0) {
+                    status = access("/var/jb/basebin/.safe_mode", F_OK) == 0
+                            ? execl(ROOT_PATH("/bin/rm"), "rm", "-f", "/var/jb/basebin/.safe_mode", NULL)
+                            : execl(ROOT_PATH("/bin/touch"), "touch", "/var/jb/basebin/.safe_mode", NULL);
+                }
 
-			if (access("/usr/lib/TweakInject.dylib", F_OK) == 0) {
+                if (wait_pid(cpid) == 0) {
+                    status = execl(ROOT_PATH("/usr/bin/launchctl"), "launchctl", "reboot", "userspace", NULL);
+                }
+            } else if (access(ROOT_PATH("/usr/lib/TweakInject.dylib"), F_OK) == 0) {
+                pid_t cpid = fork();
 
-				if (access("/.disable_tweakinject", F_OK) == 0) {
-					execlp("/bin/rm", "rm", "-f", "/.disable_tweakinject", NULL);
-				} else {
-					execlp("/bin/touch", "touch", "/.disable_tweakinject", NULL);
-				}
+                if (cpid == 0) {
+                    status = access(ROOT_PATH("/.disable_tweakinject"), F_OK) == 0
+                            ? execl(ROOT_PATH("/bin/rm"), "rm", "-f", ROOT_PATH("/.disable_tweakinject"), NULL)
+                            : execl(ROOT_PATH("/bin/touch"), "touch", ROOT_PATH("/.disable_tweakinject"), NULL);
+                }
+
+                if (wait_pid(cpid) == 0) {
+                    status = execl(ROOT_PATH("/usr/bin/killall"), "killall", "backboardd", NULL);
+                }
 			} else {
-				if (access("/var/tmp/.substrated_disable_loader", F_OK) == 0) {
-					execlp("/bin/rm", "rm", "-f", "/var/tmp/.substrated_disable_loader", NULL);
-				} else {
-					execlp("/bin/touch", "touch", "/var/tmp/.substrated_disable_loader", NULL);
-				}
+                pid_t cpid = fork();
+
+                if (cpid == 0) {
+                    status = access(ROOT_PATH("/var/tmp/.substrated_disable_loader"), F_OK) == 0
+                            ? execl(ROOT_PATH("/bin/rm"), "rm", "-f", ROOT_PATH("/var/tmp/.substrated_disable_loader"), NULL)
+                            : execl(ROOT_PATH("/bin/touch"), "touch", ROOT_PATH("/var/tmp/.substrated_disable_loader"), NULL);
+                }
+
+                if (wait_pid(cpid) == 0) {
+                    cpid = fork();
+
+                    if (cpid == 0) {
+                        status = execl(ROOT_PATH("/etc/rc.d/substrate"), "substrate", NULL);
+                    }
+
+                    if (wait_pid(cpid) == 0) {
+                        status = execl(ROOT_PATH("/usr/bin/killall"), "killall", "backboardd", NULL);
+                    }
+                }
 			}
 		} break;
 		case TSUtilityActionTypeSubstrated: {
 			if (access("/etc/rc.d/substrate", F_OK) == 0) {
-				execlp("/etc/rc.d/substrate", "substrate", NULL);
+				execl("/etc/rc.d/substrate", "substrate", NULL);
 			}
 		} break;
 	}

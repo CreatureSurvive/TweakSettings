@@ -1,12 +1,35 @@
 #!/bin/sh
 
-chown root:wheel /usr/bin/tweaksettings-utility
-chmod 0777 /usr/bin/tweaksettings-utility
-chmod +s /usr/bin/tweaksettings-utility
+UTILITY=/usr/bin/tweaksettings-utility
+# if tweaksettings-utility doesnt exist, try the rootless path
+if [ ! -f "$UTILITY" ]; then
+    UTILITY=/var/jb$UTILITY
+fi
 
-chown root:wheel /Applications/TweakSettings.app/TweakSettings
-chmod 0755 /Applications/TweakSettings.app/TweakSettings
+if [ -f "$UTILITY" ]; then
+    chown root:wheel $UTILITY
+    chmod 0777 $UTILITY
+    chmod +s $UTILITY
+    echo "set $UTILITY permissions"
+fi
 
-uicache -p /Applications/TweakSettings.app
+APP=/Applications/TweakSettings.app/TweakSettings
+# if TweakSettings.app doesnt exist, try the rootless path
+if [ ! -f "$APP" ]; then
+    APP=/var/jb$APP
+fi
+
+if [ -f "$APP" ]; then
+    chown root:wheel $APP
+    chmod 0755 $APP
+    echo "set $APP permissions"
+fi
+
+APP_FOLDER=${APP%/*}
+
+if [ -f "$APP_FOLDER" ]; then
+  uicache -p APP_FOLDER
+  echo $APP_FOLDER
+fi
 
 exit 0;

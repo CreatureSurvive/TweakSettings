@@ -36,6 +36,28 @@
         <key>com.apple.private.security.storage.AppDataContainers</key>
         <true/>
 
+
+        <key>com.apple.private.MobileContainerManager.allowed</key>
+        <true/>
+        <key>com.apple.private.MobileContainerManager.otherIdLookup</key>
+        <true/>
+        <key>com.apple.private.MobileContainerManager.otherIdentifierLookup</key>
+        <true/>
+        <key>com.apple.private.MobileContainerManager.userManagedAssets</key>
+        <true/>
+
+        <key>com.apple.springboard.opensensitiveurl</key>
+        <true/>
+        <key>com.apple.springboard.presentPowerDownUI</key>
+        <true/>
+
+        <key>com.apple.frontboard.delete-application-snapshots</key>
+        <true/>
+        <key>com.apple.frontboard.shutdown</key>
+        <true/>
+        <key>com.apple.frontboardservices.display-layout-monitor</key>
+        <true/>
+
         <!--	Fix EAGLContext crash when loading custom images on iOS 14.x   -->
         <key>com.apple.security.iokit-user-client-class</key>
         <array>

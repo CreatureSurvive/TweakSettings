@@ -10,6 +10,8 @@
 #import "TSUtilityActionManager.h"
 #import "Localizable.h"
 #import "TSAppDelegate.h"
+#import "rootless.h"
+#import "NSTask.h"
 
 NSString *const TSActionTypeRespring = @"respring";
 NSString *const TSActionTypeSafemode = @"safemode";
@@ -18,6 +20,50 @@ NSString *const TSActionTypeLDRestart = @"ldrestart";
 NSString *const TSActionTypeReboot = @"reboot";
 NSString *const TSActionTypeUserspaceReboot = @"usreboot";
 NSString *const TSActionTypeTweakInject = @"tweakinject";
+
+struct TaskResult ExecuteCommand(NSString *command) {
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath:ROOT_PATH_NS(@"/bin/sh")];
+    [task setArguments:@[@"-c", command]];
+
+    NSPipe *outputPipe = [NSPipe pipe];
+    [task setStandardOutput:outputPipe];
+
+    NSPipe *errorPipe = [NSPipe pipe];
+    [task setStandardError:errorPipe];
+
+    [task launch];
+    [task waitUntilExit];
+
+    NSData *errorData;
+    NSData *outputData;
+    NSString *output;
+    NSString *error;
+
+    if (@available(iOS 13.0, *)) {
+        outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFileAndReturnError:nil];
+        errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFileAndReturnError:nil];
+    } else {
+        outputData = [[[task standardOutput] fileHandleForReading] readDataToEndOfFile];
+        errorData = [[[task standardError] fileHandleForReading] readDataToEndOfFile];
+    }
+
+    if (outputData && outputData.length > 0) {
+        output =  [[NSString alloc] initWithData:outputData encoding:NSASCIIStringEncoding];
+    }
+
+    if (errorData && errorData.length > 0) {
+        error = [[NSString alloc] initWithData:errorData encoding:NSASCIIStringEncoding];
+        NSLog(@"TweakSettings: TASK INPUT: %@ ERROR: %@, STATUS: %d", task.arguments.lastObject, error, task.terminationStatus);
+    }
+
+    struct TaskResult result;
+    result.status = task.terminationStatus;
+    result.output = output;
+    result.error = error;
+
+    return result;
+}
 
 NSString *TitleForActionType(NSString *type) {
     if ([type isEqualToString:TSActionTypeRespring]) return NSLocalizedString(RESPRING_TITLE_KEY, nil);
@@ -53,16 +99,7 @@ int HandleActionForType(NSString *actionType) {
 
     if (!actionType || !actionType.length) return EXIT_FAILURE;
 
-    int status = STATUS_FOR_COMMAND([NSString stringWithFormat:@"/usr/bin/tweaksettings-utility --%@", actionType]);
-    if (status == EXIT_SUCCESS && [actionType isEqualToString:TSActionTypeTweakInject]) {
-        if (access("/etc/rc.d/substrate", F_OK) == 0) {
-            if (STATUS_FOR_COMMAND(@"/usr/bin/tweaksettings-utility --substrated") == EXIT_SUCCESS) {
-                STATUS_FOR_COMMAND(@"/usr/bin/tweaksettings-utility --respring");
-            }
-        } else {
-            STATUS_FOR_COMMAND(@"/usr/bin/tweaksettings-utility --respring");
-        }
-    }
+    int status = ExecuteCommand(CommandForActionType(actionType)).status;
 
     return status;
 }
@@ -83,7 +120,7 @@ UIAlertController *ActionAlertForType(NSString *actionType) {
 
 UIAlertController *ActionListAlert(void) {
 
-    BOOL userspace_supported = access("/odyssey/jailbreakd.plist", F_OK) == 0 || access("/taurine/jailbreakd.plist", F_OK) == 0;
+    BOOL userspace_supported = access(ROOT_PATH("/odyssey/jailbreakd.plist"), F_OK) == 0 || access(ROOT_PATH("/taurine/jailbreakd.plist"), F_OK) == 0;
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -117,7 +154,10 @@ UIAlertController *ActionListAlert(void) {
 UIMenu *ActionListMenu(void) API_AVAILABLE(ios(13.0)) {
 
     NSMutableArray *menuActions = [NSMutableArray new];
-    BOOL userspace_supported = access("/odyssey/jailbreakd.plist", F_OK) == 0 || access("/taurine/jailbreakd.plist", F_OK) == 0;
+    BOOL userspace_supported =
+            access(ROOT_PATH("/odyssey/jailbreakd.plist"), F_OK) == 0 ||
+            access(ROOT_PATH("/taurine/jailbreakd.plist"), F_OK) == 0 ||
+            access(ROOT_PATH("/.installed_dopamine"), F_OK) == 0;
 
     [menuActions addObject:[UIAction actionWithTitle:NSLocalizedString(RESPRING_TITLE_KEY, nil) image:nil identifier:nil handler:^(__kindof UIAction *action) {
         [APP_DELEGATE handleActionForType:TSActionTypeRespring];
@@ -144,4 +184,8 @@ UIMenu *ActionListMenu(void) API_AVAILABLE(ios(13.0)) {
     }]];
 
     return [UIMenu menuWithTitle:@"" children:menuActions];
+}
+
+NSString *CommandForActionType(NSString *actionType) {
+    return [NSString stringWithFormat:ROOT_PATH_NS(@"/usr/bin/tweaksettings-utility --%@"), actionType];
 }

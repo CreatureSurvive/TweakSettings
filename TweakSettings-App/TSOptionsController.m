@@ -90,7 +90,7 @@
 - (NSArray <PSSpecifier *> *)_footerSpecifiers {
 
     PSSpecifier *developerGroupSpecifier = [PSSpecifier emptyGroupSpecifier];
-    [developerGroupSpecifier setProperty:@"CreatureCoding © 2021" forKey:PSFooterTextGroupKey];
+    [developerGroupSpecifier setProperty:@"CreatureCoding © 2023" forKey:PSFooterTextGroupKey];
     [developerGroupSpecifier setProperty:@1 forKey:PSFooterAlignmentGroupKey];
 
     PSSpecifier *changelogSpecifier = [PSSpecifier preferenceSpecifierNamed:@"Changelog" target:self set:nil get:nil detail:TSChangelogController.class cell:PSLinkCell edit:nil];

@@ -73,19 +73,4 @@ NS_INLINE __unused NSArray *ARRAY_WITH_PLIST(NSString *path) {
     return ARRAY_WITH_PLIST_OPTIONS(path, NSPropertyListImmutable);
 }
 
-NS_INLINE __unused int STATUS_FOR_COMMAND(NSString *command) {
-    FILE *proc = popen(command.UTF8String, "r");
-
-    if (!proc) {return EXIT_FAILURE;}
-
-    int size = 1024;
-    char data[size];
-
-    while (fgets(data, size, proc) != NULL) {}
-
-    int status = pclose(proc);
-
-    return status;
-}
-
 #endif /* TS_Prefix_pch */

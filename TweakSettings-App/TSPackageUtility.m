@@ -11,6 +11,7 @@
 
 #import "TSPackageUtility.h"
 #import "libprefs.h"
+#import "rootless.h"
 
 #pragma mark - LIBPREFS Shim
 
@@ -36,9 +37,9 @@ NSArray *SPECIFIERS_FROM_ENTRY(NSDictionary *entry, NSString *sourceBundlePath, 
     if (isBundle) {
         NSFileManager *fileManger = NSFileManager.defaultManager;
         if (![fileManger fileExistsAtPath:bundlePath])
-            bundlePath = [NSString stringWithFormat:@"/Library/PreferenceBundles/%@.bundle", bundleName];
+            bundlePath = [NSString stringWithFormat:ROOT_PATH_NS(@"/Library/PreferenceBundles/%@.bundle"), bundleName];
         if (![fileManger fileExistsAtPath:bundlePath])
-            bundlePath = [NSString stringWithFormat:@"/System/Library/PreferenceBundles/%@.bundle", bundleName];
+            bundlePath = [NSString stringWithFormat:ROOT_PATH_NS(@"/System/Library/PreferenceBundles/%@.bundle"), bundleName];
         if (![fileManger fileExistsAtPath:bundlePath]) {
             return nil;
         }
@@ -91,14 +92,14 @@ NSArray *SPECIFIERS_FROM_ENTRY(NSDictionary *entry, NSString *sourceBundlePath, 
 
 + (NSArray<PSSpecifier *> *)loadTweakSpecifiersInController:(PSListController *)controller {
     NSMutableArray *preferenceSpecifiers = [NSMutableArray new];
-    NSArray *preferenceBundlePaths = [NSFileManager.defaultManager subpathsOfDirectoryAtPath:@"/Library/PreferenceLoader/Preferences" error:nil];
+    NSArray *preferenceBundlePaths = [NSFileManager.defaultManager subpathsOfDirectoryAtPath:ROOT_PATH_NS(@"/Library/PreferenceLoader/Preferences") error:nil];
     NSMutableArray *searchableItems = [NSMutableArray new];
 
     for (NSString *item in preferenceBundlePaths)
     {
         if (![item.pathExtension isEqualToString:@"plist"]) continue;
 
-        NSString *plistPath = [NSString stringWithFormat:@"/Library/PreferenceLoader/Preferences/%@", item];
+        NSString *plistPath = [NSString stringWithFormat:ROOT_PATH_NS(@"/Library/PreferenceLoader/Preferences/%@"), item];
         NSDictionary *plist = DICTIONARY_WITH_PLIST(plistPath);
 
         if (!plist[@"entry"]) continue;
@@ -107,8 +108,8 @@ NSArray *SPECIFIERS_FROM_ENTRY(NSDictionary *entry, NSString *sourceBundlePath, 
 
         NSString *bundlePath = [plistPath stringByDeletingLastPathComponent];
         NSString *title = [item.lastPathComponent stringByDeletingPathExtension];
-        BOOL customInstall = access("/var/lib/dpkg/info/com.artikus.preferenceloader.list", F_OK) == 0
-                || access("/var/lib/dpkg/info/com.creaturecoding.preferred.list", F_OK) == 0;
+        BOOL customInstall = access(ROOT_PATH("/var/lib/dpkg/info/com.artikus.preferenceloader.list"), F_OK) == 0
+                || access(ROOT_PATH("/var/lib/dpkg/info/com.creaturecoding.preferred.list"), F_OK) == 0;
 
         NSArray *itemSpecifiers = !customInstall
                 ? SPECIFIERS_FROM_ENTRY(plist[@"entry"], bundlePath, title, controller)
@@ -123,7 +124,7 @@ NSArray *SPECIFIERS_FROM_ENTRY(NSDictionary *entry, NSString *sourceBundlePath, 
                     [specifier setProperty:[UIImage imageNamed:@"tweak"] forKey:PSIconImageKey];
                 }
 
-                CSSearchableItemAttributeSet *attributeSet = [[CSSearchableItemAttributeSet alloc] initWithItemContentType:(NSString *) kUTTypeImage];
+                CSSearchableItemAttributeSet *attributeSet = [[CSSearchableItemAttributeSet alloc] init];
                 attributeSet.title = specifier.name;
                 attributeSet.contentDescription = [NSString stringWithFormat:@"Tweak Settings \u2192 %@", specifier.name];
                 attributeSet.thumbnailData = UIImagePNGRepresentation([specifier propertyForKey:PSIconImageKey]);

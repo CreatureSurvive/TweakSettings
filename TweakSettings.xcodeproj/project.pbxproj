@@ -22,9 +22,9 @@
 		9B241E2F90DD7CBD64A43B51 /* TSSearchableListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241E51979762427B0DEF19 /* TSSearchableListController.m */; };
 		9B241FBC80A9F03FB421F1D3 /* TSOptionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B241D3DD023C428A7AD45EF /* TSOptionsController.m */; };
 		9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B241DE01047656B78369A94 /* LaunchScreen.storyboard */; };
+		B80B985A2A06E70E00C440EB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B871CDB5265991710058F1C2 /* Localizable.strings */; };
 		B86FC5D626645DE60011E4AF /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B871CD462651D3680058F1C2 /* Preferences.framework */; };
 		B871CDA0265601110058F1C2 /* icon_large.png in Resources */ = {isa = PBXBuildFile; fileRef = B871CD9F265601110058F1C2 /* icon_large.png */; };
-		B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B871CDB5265991710058F1C2 /* Localizable.strings */; };
 		B8917F68267590B700A9DA57 /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8917F67267590B700A9DA57 /* CoreSpotlight.framework */; };
 		B8917F6A2675944E00A9DA57 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8917F692675944E00A9DA57 /* CoreServices.framework */; };
 /* End PBXBuildFile section */
@@ -34,6 +34,7 @@
 		9B241145674E6322664B2C03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B2411C5CDD06E84A912DF3A /* libprefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libprefs.h; sourceTree = "<group>"; };
 		9B24127C70ECB51EAE77F9EE /* TSPackageUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPackageUtility.h; sourceTree = "<group>"; };
+		9B2412872ABBBB036129F433 /* build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = build.sh; sourceTree = "<group>"; };
 		9B2413E3DE3004D22E25AAFB /* TSRootListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSRootListController.m; sourceTree = "<group>"; };
 		9B2413E6B518A0A99C895507 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B24142E08BDFAEE4F8373EF /* TSChangelogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSChangelogController.h; sourceTree = "<group>"; };
@@ -44,9 +45,11 @@
 		9B24169943CD9A7E1AA8E2FE /* TSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TSAppDelegate.h; sourceTree = "<group>"; };
 		9B2416D9FECD758BFA318498 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		9B24181BB83D9773FE8446BB /* TSPrefsRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPrefsRootController.h; sourceTree = "<group>"; };
+		9B241824397C45F85F933DC1 /* rootless.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rootless.h; sourceTree = "<group>"; };
 		9B24192FDF28BB2496BBEA7B /* TSUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUserDefaults.m; sourceTree = "<group>"; };
 		9B2419707513EEC97C39BA0C /* TSSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSplitViewController.m; sourceTree = "<group>"; };
 		9B2419CD47CC813402F66384 /* Localizable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Localizable.h; sourceTree = "<group>"; };
+		9B241A100BBAE284CD214164 /* NSTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSTask.h; sourceTree = "<group>"; };
 		9B241B6A5EF71185ECED8986 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9B241B6FA0ACC48629D31472 /* TSUtilityActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtilityActionManager.h; sourceTree = "<group>"; };
 		9B241BDCA3396202FEB00F19 /* TSRootListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSRootListController.h; sourceTree = "<group>"; };
@@ -99,6 +102,7 @@
 				9B241880696EB372AB810EDA /* Products */,
 				9B2416070FA2791AF62D5143 /* TweakSettings-App */,
 				B86FC5D226645DC50011E4AF /* Frameworks */,
+				9B2412872ABBBB036129F433 /* build.sh */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +140,8 @@
 				9B241649FFFF894DC1194290 /* TSUtilityActionManager.m */,
 				9B241C07A10B2F57EE3E6BDE /* TSChangelogController.m */,
 				9B24142E08BDFAEE4F8373EF /* TSChangelogController.h */,
+				9B241824397C45F85F933DC1 /* rootless.h */,
+				9B241A100BBAE284CD214164 /* NSTask.h */,
 			);
 			path = "TweakSettings-App";
 			sourceTree = "<group>";
@@ -259,7 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B871CDBA26599BFD0058F1C2 /* Localizable.strings in Resources */,
+				B80B985A2A06E70E00C440EB /* Localizable.strings in Resources */,
 				B871CDA0265601110058F1C2 /* icon_large.png in Resources */,
 				9B2417125AF333AF7433AE3F /* Assets.xcassets in Resources */,
 				9B241FDA50F976918DC53162 /* LaunchScreen.storyboard in Resources */,

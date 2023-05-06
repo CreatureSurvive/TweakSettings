@@ -10,6 +10,7 @@
 #import <dlfcn.h>
 
 #import "TSAppDelegate.h"
+#import "rootless.h"
 
 
 int main(int argc, char *argv[]) {
@@ -21,10 +22,10 @@ int main(int argc, char *argv[]) {
         // Setup code that might create autoreleased objects goes here.
         appDelegateClassName = NSStringFromClass([TSAppDelegate class]);
 
-        NSArray *librariesToLoad = ARRAY_WITH_PLIST(@"/Applications/TweakSettings.app/libraries.plist");
+        NSArray *librariesToLoad = ARRAY_WITH_PLIST(ROOT_PATH_NS(@"/Applications/TweakSettings.app/libraries.plist"));
 
         for (NSString *path in librariesToLoad) {
-            dlopen(path.UTF8String, RTLD_NOW);
+            dlopen(ROOT_PATH_NS_VAR(path).UTF8String, RTLD_NOW);
         }
 
     }
