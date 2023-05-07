@@ -147,8 +147,16 @@ NSArray *SPECIFIERS_FROM_ENTRY(NSDictionary *entry, NSString *sourceBundlePath, 
     }
 
     [CSSearchableIndex.defaultSearchableIndex deleteAllSearchableItemsWithCompletionHandler:^(NSError *error) {
-        [CSSearchableIndex.defaultSearchableIndex indexSearchableItems:searchableItems completionHandler:nil];
+        [CSSearchableIndex.defaultSearchableIndex indexSearchableItems:searchableItems completionHandler:^(NSError *error) {
+            if (error) {
+                Error("Updating searchable item index (%@)", error.localizedDescription);
+            } else {
+                Log("Finished updating searchable item index with items (%@)", searchableItems);
+            }
+        }];
     }];
+
+    Log("Loaded Specifiers (%lu)", (unsigned long)preferenceSpecifiers.count)
 
     return preferenceSpecifiers;
 }

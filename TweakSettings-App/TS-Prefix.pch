@@ -8,11 +8,18 @@
 #ifdef __OBJC__
 
 #import <Foundation/Foundation.h>
+#import <os/log.h>
 
 #endif
 
 #ifndef TS_Prefix_pch
 #define TS_Prefix_pch
+
+#define Log(format, ...) os_log(OS_LOG_DEFAULT, ("(com.creaturecoding.tweaksettings) %s [LOG Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define Info(format, ...) os_log_info(OS_LOG_DEFAULT, ("(com.creaturecoding.tweaksettings) %s [INFO Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define Error(format, ...) os_log_error(OS_LOG_DEFAULT, ("(com.creaturecoding.tweaksettings) %s [ERROR Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define Fault(format, ...) os_log_fault(OS_LOG_DEFAULT, ("(com.creaturecoding.tweaksettings) %s [FAULT Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#define LogWithType(type, format, ...) os_log_with_type(OS_LOG_DEFAULT, type, ("(com.creaturecoding.tweaksettings) %s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
 
 NS_INLINE __unused void MAIN_QUEUE(void (^block)(void)) {
     [NSThread isMainThread] ? block() : dispatch_async(dispatch_get_main_queue(), ^{
@@ -40,10 +47,10 @@ NS_INLINE __unused NSObject *OBJECT_WITH_PLIST_OPTIONS(NSString *path, NSPropert
         if (object && !err2) {
             return object;
         }
-        NSLog(@"ERROR (failed to read property-list file): %@", err2.localizedDescription);
+        Error("(failed to read property-list file): %@", err2.localizedDescription);
         return nil;
     }
-    NSLog(@"ERROR (failed to read property-list file): %@", err1.localizedDescription);
+    Error("(failed to read property-list file): %@", err1.localizedDescription);
     return nil;
 }
 
@@ -52,7 +59,7 @@ NS_INLINE __unused NSDictionary *DICTIONARY_WITH_PLIST_OPTIONS(NSString *path, N
     if (object && [object isKindOfClass:NSDictionary.class]) {
         return (NSDictionary *) object;
     }
-    NSLog(@"ERROR (property-list file at %@ is not a dictionary)", path);
+    Error("(property-list file at %@ is not a dictionary)", path);
     return nil;
 }
 
@@ -65,7 +72,7 @@ NS_INLINE __unused NSArray *ARRAY_WITH_PLIST_OPTIONS(NSString *path, NSPropertyL
     if (object && [object isKindOfClass:NSArray.class]) {
         return (NSArray *) object;
     }
-    NSLog(@"ERROR (property-list file at %@ is not an array)", path);
+    Error("(property-list file at %@ is not an array)", path);
     return nil;
 }
 

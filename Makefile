@@ -36,5 +36,9 @@ after-stage::
 	$(ECHO_BEGIN)$(PRINT_FORMAT_MAGENTA) "Set bundle version to: ${PACKAGE_VERSION}"$(ECHO_END)
 	$(ECHO_BEGIN)$(PRINT_FORMAT_MAGENTA) "Built for $(or $(THEOS_PACKAGE_SCHEME),rootful)"$(ECHO_END)
 
+before-package::
+	$(ECHO_NOTHING)# Update the Icon: field in the control file to support rootless$(ECHO_END)
+	@sed -i '' 's|Icon: file:///Applications|Icon: file://$(THEOS_PACKAGE_INSTALL_PREFIX)/Applications|' $(THEOS_STAGING_DIR)/DEBIAN/control
+
 after-install::
 	install.exec "killall -9 ${XCODEPROJ_NAME}; uicache -p $(THEOS_PACKAGE_INSTALL_PREFIX)/Applications/${XCODEPROJ_NAME}.app; uiopen tweaks:$(LAUNCH_URL)"

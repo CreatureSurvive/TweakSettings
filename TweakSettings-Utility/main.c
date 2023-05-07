@@ -92,29 +92,24 @@ int main(int argc, char **argv, char **envp) {
 
 	// check that TweakSettings.app exists
 	struct stat correct;
-	if (lstat(ROOT_PATH("/Applications/TweakSettings.app/TweakSettings"), &correct) == -1){
-		printf("tweaksettings-utility can only be used by TweakSettings.app,\n");
+	if (lstat(ROOT_PATH("/Applications/TweakSettings.app/TweakSettings"), &correct) == -1) {
+        perror("tweaksettings-utility can only be used by TweakSettings.app, (stat failed)\n");
 		return EX_NOPERM;
 	}
 
 	pid_t parent = getppid();
-	bool tweaksettings = false;
 
 	// check that TweakSettings.app is the parent process pid
 	char buffer[(1024)] = {0};
 	int pidpath = proc_pidpath(parent, buffer, sizeof(buffer));
-	if (pidpath > 0){
-		if (strcmp(buffer, ROOT_PATH("/Applications/TweakSettings.app/TweakSettings")) == 0){
-			tweaksettings = true;
+	if (pidpath > 0) {
+	    // exit if the parent process was not TweakSettings.app
+		if (strstr(buffer, "/Applications/TweakSettings.app/TweakSettings") == NULL) {
+            perror("tweaksettings-utility can only be used by TweakSettings.app, (incorrect parent)\n");
+		    return EX_NOPERM;
 		}
 	}
 
-	// exit if the parent process was not TweakSettings.app
-	if (tweaksettings == false){
-		printf("tweaksettings-utility can only be used by TweakSettings.app,\n");
-		return EX_NOPERM;
-	}
-	
 	// patch setuid if needed
 	patch_setuid(0);
 
@@ -154,10 +149,11 @@ int main(int argc, char **argv, char **envp) {
 	// handle operation execution
 	switch (flags) {
 		case TSUtilityActionTypeNone: {
-			printf("invalid arguments, canceling operation\n");
+			perror("invalid arguments, canceling operation\n");
 		} break;
 		case TSUtilityActionTypeHelp: {
 			print_usage();
+			status = EXIT_SUCCESS;
 		} break;
 		case TSUtilityActionTypeRespring: {
             status = execl(ROOT_PATH("/usr/bin/killall"), "killall", "backboardd", NULL);

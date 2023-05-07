@@ -16,7 +16,7 @@
 
 
 static void HandleExceptions(NSException *exception) {
-    NSLog(@"TweakSettings unhandled exception: %@", exception.debugDescription);
+    Error("TweakSettings unhandled exception: %@", exception.debugDescription);
 }
 
 @implementation TSAppDelegate

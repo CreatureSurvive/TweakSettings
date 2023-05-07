@@ -54,7 +54,7 @@ struct TaskResult ExecuteCommand(NSString *command) {
 
     if (errorData && errorData.length > 0) {
         error = [[NSString alloc] initWithData:errorData encoding:NSASCIIStringEncoding];
-        NSLog(@"TweakSettings: TASK INPUT: %@ ERROR: %@, STATUS: %d", task.arguments.lastObject, error, task.terminationStatus);
+        Error("TASK INPUT: %@ ERROR: %@, STATUS: %d", task.arguments.lastObject, error, task.terminationStatus)
     }
 
     struct TaskResult result;
@@ -99,9 +99,15 @@ int HandleActionForType(NSString *actionType) {
 
     if (!actionType || !actionType.length) return EXIT_FAILURE;
 
-    int status = ExecuteCommand(CommandForActionType(actionType)).status;
+    NSString *command = CommandForActionType(actionType);
+    Log("Will execute command: %@", command);
+    struct TaskResult result = ExecuteCommand(command);
 
-    return status;
+    if (result.status != 0) {
+        Error("TaskResult (E: %@ O: %@ S: %d)", result.error, result.output, result.status);
+    }
+
+    return result.status;
 }
 
 UIAlertController *ActionAlertForType(NSString *actionType) {
