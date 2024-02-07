@@ -1,0 +1,49 @@
+/****************************************************************************/
+/* Localization file */
+
+/* Application Shortcut Titles */
+"RESPRING_TITLE_KEY" = "执行 Respring";
+"SAFEMODE_TITLE_KEY" = "进入安全模式";
+"UICACHE_TITLE_KEY" = "执行 UICache";
+"LDRESTART_TITLE_KEY" = "执行 LDRestart";
+"REBOOT_TITLE_KEY" = "执行重启";
+"USREBOOT_TITLE_KEY" = "执行用户空间重启";
+"TWEAKINJECT_TITLE_KEY" = "切换 Tweak 注入";
+
+/* Application Shortcut Subtitles */
+"TWEAKINJECT_SUBTITLE_KEY" = "切换 Tweak 注入开/关";
+"UICACHE_SUBTITLE_KEY" = "刷新图标缓存";
+"SAFEMODE_SUBTITLE_KEY" = "将设备进入安全模式";
+"RESPRING_SUBTITLE_KEY" = "触发 Respring";
+"LDRESTART_SUBTITLE_KEY" = "触发 LDRestart";
+"REBOOT_SUBTITLE_KEY" = "重新启动设备";
+"USREBOOT_SUBTITLE_KEY" = "触发用户空间重启";
+
+/* Application Root Navigation Title */
+"ROOT_NAVIGATION_TITLE_KEY" = "调整";
+"ROOT_NAVIGATION_RIGHT_TITLE_KEY" = "操作";
+"ROOT_NAVIGATION_LEFT_TITLE_KEY" = "设置";
+
+/* Alert Strings */
+"ALERT_CANCEL_TITLE_KEY" = "取消";
+"ALERT_DISMISS_TITLE_KEY" = "关闭";
+"ALERT_ACTION_MESSAGE_KEY" = "此操作将：%@\n\n确定要继续吗？";
+
+/* App Settings Strings */
+"ALWAYS_SHOW_SEARCH_BAR_NAME_KEY" = "始终显示搜索栏";
+"ALWAYS_SHOW_SEARCH_BAR_GROUP_KEY" = "启用后，根页面上的搜索栏将始终可见，即使滚动也是如此";
+"REQUIRE_ACTION_CONFIRMATION_NAME_KEY" = "需要操作确认";
+"REQUIRE_ACTION_CONFIRMATION_GROUP_KEY" = "启用后，在执行操作前将显示确认提示。请注意，重启、LDRestart 和用户空间重启操作将始终在执行前显示确认提示";
+"LONG_PRESS_OPENS_SETTINGS_NAME_KEY" = "长按打开设置";
+"LONG_PRESS_OPENS_SETTINGS_GROUP_KEY" = "启用后，在根页面上长按单元格将打开相应的调整设置";
+"USE_LARGE_TITLES_ON_ROOT_LIST_NAME_KEY" = "使用大标题";
+"USE_LARGE_TITLES_ON_ROOT_LIST_GROUP_KEY" = "启用后，根页面将使用大的导航标题";
+"APP_SETTINGS_TITLE_NAME_KEY" = "应用程序设置";
+"SOURCE_CODE_NAME_KEY" = "源代码";
+"APP_VERSION_NAME_KEY" = "应用版本";
+
+/* Check For Update Strings */
+"CHECK_FOR_UPDATES_TITLE_KEY" = "检查更新";
+"CHECK_FOR_UPDATES_ERROR_MESSAGE_KEY" = "检查更新时出现错误，请稍后再试，或检查您的网络。";
+"CHECK_FOR_UPDATES_PASS_MESSAGE_KEY" = "无更新可用，(v%@) 是最新版本";
+"CHECK_FOR_UPDATES_FAIL_MESSAGE_KEY" = "有更新可用，(v%@) 已发布";
