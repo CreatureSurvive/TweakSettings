@@ -1,0 +1,49 @@
+/****************************************************************************/
+/* Localization file */
+
+/* Application Shortcut Titles */
+"RESPRING_TITLE_KEY" = "執行重新啟動";
+"SAFEMODE_TITLE_KEY" = "進入安全模式";
+"UICACHE_TITLE_KEY" = "執行 UICache";
+"LDRESTART_TITLE_KEY" = "執行 LDRestart";
+"REBOOT_TITLE_KEY" = "執行重新啟動";
+"USREBOOT_TITLE_KEY" = "執行使用者空間重新啟動";
+"TWEAKINJECT_TITLE_KEY" = "切換 Tweak 注入";
+
+/* Application Shortcut Subtitles */
+"TWEAKINJECT_SUBTITLE_KEY" = "切換 Tweak 注入的開/關狀態";
+"UICACHE_SUBTITLE_KEY" = "刷新圖示快取";
+"SAFEMODE_SUBTITLE_KEY" = "將裝置發送到安全模式";
+"RESPRING_SUBTITLE_KEY" = "觸發重新啟動";
+"LDRESTART_SUBTITLE_KEY" = "觸發 LDRestart";
+"REBOOT_SUBTITLE_KEY" = "重新啟動裝置";
+"USREBOOT_SUBTITLE_KEY" = "觸發使用者空間重新啟動";
+
+/* Application Root Navigation Title */
+"ROOT_NAVIGATION_TITLE_KEY" = "Tweak";
+"ROOT_NAVIGATION_RIGHT_TITLE_KEY" = "操作";
+"ROOT_NAVIGATION_LEFT_TITLE_KEY" = "設置";
+
+/* Alert Strings */
+"ALERT_CANCEL_TITLE_KEY" = "取消";
+"ALERT_DISMISS_TITLE_KEY" = "關閉";
+"ALERT_ACTION_MESSAGE_KEY" = "此操作將：%@\n\n您確定要繼續嗎？";
+
+/* App Settings Strings */
+"ALWAYS_SHOW_SEARCH_BAR_NAME_KEY" = "始終顯示搜尋欄";
+"ALWAYS_SHOW_SEARCH_BAR_GROUP_KEY" = "啟用後，根頁面上的搜尋欄將始終可見，即使滾動也是如此";
+"REQUIRE_ACTION_CONFIRMATION_NAME_KEY" = "需要操作確認";
+"REQUIRE_ACTION_CONFIRMATION_GROUP_KEY" = "啟用後，在執行操作前將顯示確認警告。請注意，重新啟動、LDRestart 和使用者空間重新啟動操作將始終在執行前顯示確認警告";
+"LONG_PRESS_OPENS_SETTINGS_NAME_KEY" = "長按打開設置";
+"LONG_PRESS_OPENS_SETTINGS_GROUP_KEY" = "啟用後，長按根頁面上的儲存格將打開相應的設置應用";
+"USE_LARGE_TITLES_ON_ROOT_LIST_NAME_KEY" = "使用大標題";
+"USE_LARGE_TITLES_ON_ROOT_LIST_GROUP_KEY" = "啟用後，根頁面將使用大導覽標題";
+"APP_SETTINGS_TITLE_NAME_KEY" = "應用程式設置";
+"SOURCE_CODE_NAME_KEY" = "原始碼";
+"APP_VERSION_NAME_KEY" = "應用程式版本";
+
+/* Check For Update Strings */
+"CHECK_FOR_UPDATES_TITLE_KEY" = "檢查更新中";
+"CHECK_FOR_UPDATES_ERROR_MESSAGE_KEY" = "檢查更新時出錯，請稍後重試，或檢查您的網路連線。";
+"CHECK_FOR_UPDATES_PASS_MESSAGE_KEY" = "沒有可用的更新，(v%@) 是最新版本";
+"CHECK_FOR_UPDATES_FAIL_MESSAGE_KEY" = "有可用更新，(v%@) 已發布";
